@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="My website containing contact information and a blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>mbp76</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.png">
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!-- <link rel="canonical" href="http://www.example.com/"> -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
+      <main class="mdl-layout__content">
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col"></div>
+          <div class="mdl-color-text--grey-800 mdl-cell mdl-cell--6-col">
+            <div class="mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Hello <del class="mdl-color-text--grey-400">world</del> visitor</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>
+                  Thanks for dropping by and welcome to my site. I am a computer
+                  scientist and software engineer based in the London area,
+                  and I build high quality full-stack applications.
+                </p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                  onclick="slideIn('card-2')">
+                  Tell me more
+                </a>
+              </div>
+              <div class="mdl-card__menu">
+                <i class="material-icons">done_all</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col"></div>
+          <div class="mdl-color-text--grey-800 mdl-cell mdl-cell--6-col">
+            <div class="mdl-card mdl-shadow--2dp" id="card-2">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Tip of the iceberg</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>
+                  I produce fully tested and documented projects written in Java,
+                  Python, C, C++ and GoLang. As for the web I focus mostly on
+                  AngularJS, Material Design and an HTML/CSS build system.
+                </p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                  onclick="slideIn('card-3')">
+                  What about devops?
+                </a>
+              </div>
+              <div class="mdl-card__menu">
+                <i class="material-icons">done_all</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col"></div>
+          <div class="mdl-color-text--grey-800 mdl-cell mdl-cell--6-col">
+            <div class="mdl-card mdl-shadow--2dp" id="card-3">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Down the rabbit hole</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>
+                  I combine Git, Gradle, Docker, docker-compose and several other
+                  tools to build highly scalable and fault tolerant solutions
+                  which can be delivered to AWS, Google Cloud Platform or bare
+                  metal servers.
+                </p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                  onclick="slideIn('card-4')">
+                  And data?
+                </a>
+              </div>
+              <div class="mdl-card__menu">
+                <i class="material-icons">done_all</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col"></div>
+          <div class="mdl-color-text--grey-800 mdl-cell mdl-cell--6-col">
+            <div class="mdl-card mdl-shadow--2dp" id="card-4">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Best of both worlds</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>
+                  I provide scalable and highly available Hadoop/HDFS, Cassandra
+                  and PostgreSQL clusters and I build data analysis and machine
+                  learning solutions with Spark and Pandas.
+                </p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                  onclick="slideIn('card-5')">
+                  Any samples out there?
+                </a>
+              </div>
+              <div class="mdl-card__menu">
+                <i class="material-icons">done_all</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col"></div>
+          <div class="mdl-color-text--grey-800 mdl-cell mdl-cell--6-col">
+            <div class="mdl-card mdl-shadow--2dp" id="card-5">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Of course!</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>
+                Take a look at my <a href="https://github.com/mbp76" target="_blank">Github repository</a>
+                or browse through my blog articles (not yet). If you
+                want to work with me get in touch via <a href="mailto:mbp76@my.open.ac.uk">e-mail</a>
+                or call <a href="tel:+4407541029957">+44 (0) 7541 029 957</a>.
+                See you soon and thanks for your visit.
+                </p>
+              </div>
+              <div class="mdl-card__menu">
+                <i class="material-icons">done_all</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

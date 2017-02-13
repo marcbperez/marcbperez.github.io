@@ -1,0 +1,32 @@
+del {
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
+.mdl-card {
+  width: auto;
+}
+
+*[id^="card"] {
+  opacity: 0;
+  display: none;
+}
+
+.slide-in {
+  animation-name: slide-in;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  display: flex;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    top: 10px;
+  }
+
+  to {
+    opacity: 1;
+    top: 0px;
+  }
+}
