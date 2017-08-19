@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="author" content="Mbp76">
+    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Hadoop,HDFS,Cassandra,PostgreSQL,Data analysis,Machine Learning,Spark,Pandas,NumPy,Linux Kernel,Programming,London,Barcelona,">
+    <meta name="description" content="Mbp76's website, with professional information and a blog.">
+    <title>mbp76.github.io</title>
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link id="prism-css" rel="stylesheet" href="">
+  </head>
+  <body class="light">
+    <div class="main-layout mdl-layout mdl-layout--fixed-header mdl-js-layout">
+      <header class="header mdl-layout__header mdl-layout__header--scroll">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">
+            <a href="index.html" class="title-link">mbp76.github.io</a>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row">
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="index.html">About</a>
+            <a class="mdl-navigation__link" href="contact.html">Contact</a>
+            <a class="mdl-navigation__link" href="journal.html">Journal</a>
+            <a class="mdl-navigation__link toggle-theme" href="#">Darken</a>
+          </nav>
+        </div>
+      </header>
+      <main class="main mdl-layout__content">
+        <div class="main-container mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="main-content mdl-shadow--4dp mdl-cell mdl-cell--8-col"><h1 id="gradle-in-docker">Gradle in Docker</h1>
+<p>Gradle and Docker can work together to provide an isolated environment to build software projects. Gradle keeps the build process tied up while Docker and docker-compose provide an independent and configurable environment to construct, run and test and deploy the task.</p>
+<h2 id="setting-up-docker">Setting up Docker</h2>
+<p>The first step is to set up a Docker image to call Gradle in continuous build mode. The container will provide an isolated environment and a certain architecture in where to install the project and its dependencies, and run tests against the infrastructure. A <code>Dockerfile</code> that does exactly this will look like the next example.</p>
+<pre class="bash"><code># Dockerfile
+
+FROM mbp76/docker-gradle
+ADD . /home/builder
+WORKDIR /home/builder
+CMD gradle --continuous</code></pre>
+<p>To provide more functionality to the stack, including the following <code>docker-compose.yml</code> manifest. In this example, both files are located in the root folder of the project.</p>
+<pre class="yaml"><code># docker-compose.yml
+
+version: &#39;2&#39;
+services:
+  builder:
+    build: .
+    volumes:
+      - .:/home/builder</code></pre>
+<h2 id="defining-the-build">Defining the build</h2>
+<p>The <code>gradle --continuous</code> command looks for a build script called <code>build.gradle</code>, also in the root folder. The script is divided into tasks and defines how the project will be built. First, it will define the default order of the build tasks and will set the source folder at <code>src</code> and the tests in <code>test</code>.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Define the execution order of the build tasks.
+defaultTasks &quot;wrapper&quot;, &quot;watch&quot;, &quot;dependencies&quot;, &quot;build&quot;, &quot;install&quot;, &quot;test&quot;
+
+// Get the path and define the source and tests folder.
+def path = System.getProperty(&quot;user.dir&quot;)
+def srcDir = &quot;${path}/src&quot;
+def testDir = &quot;${path}/test&quot;</code></pre>
+<p>The next step is to generate the project wrapper and to define its watcher. The wrapper will enable end users to run the Gradle build and its tasks without installing Gradle. The watcher will run the build continuously every time a change is detected in the project source or tests folder.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Generate the Gradle wrapper.
+task wrapper(type: Wrapper) {
+  description &quot;Creates the project wrapper.&quot;
+  gradleVersion = &quot;3.4.1&quot;
+}
+
+// Watch for changes when running in continuous build mode.
+task watch(type: Exec) {
+  description &quot;Watches for changes.&quot;
+  inputs.files(srcDir, testDir)
+  commandLine &quot;true&quot;
+  new ByteArrayOutputStream()
+}</code></pre>
+<p>The project might need system dependencies, in other words, the system will need to be provisioned and will also need packages for development, such as Spock, the default testing tool.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Define which packages will be needed for the build.
+def aptPackages = [&quot;libspock-java&quot;]
+
+// Run all tasks with names starting with &quot;dependencies&quot;.
+task dependencies() {
+  description &quot;Installs all dependencies.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;dependencies&quot;) &amp;&amp; !task.name.equals(&quot;dependencies&quot;)
+    }
+  }
+}
+
+// Update APT repositories, needed before installing packages.
+task aptUpdate(type: Exec) {
+  description &quot;Updates APT repository information.&quot;
+  workingDir path
+  commandLine &quot;apt-get&quot;
+  args &quot;update&quot;
+  new ByteArrayOutputStream()
+}
+
+// Install the packages and provision the system.
+task dependenciesApt(type: Exec, dependsOn: aptUpdate) {
+  description &quot;Installs APT dependencies.&quot;
+  workingDir path
+  commandLine &quot;apt-get&quot;
+  args = [&quot;install&quot;, &quot;-y&quot;] + aptPackages
+  new ByteArrayOutputStream()
+}</code></pre>
+<p>The build script will need three core tasks. <code>build</code> will run actions that compile, <code>install</code> will provide the system with those compiled changes and <code>test</code> will orchestrate testing activities, from unit-testing to end-to-end.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Run all tasks with names starting with &quot;build&quot;.
+task build() {
+  description &quot;Builds all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;build&quot;) &amp;&amp; !task.name.equals(&quot;build&quot;)
+    }
+  }
+}
+
+// Run all tasks with names starting with &quot;install&quot;.
+task install() {
+  description &quot;Installs all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;install&quot;) &amp;&amp; !task.name.equals(&quot;install&quot;)
+    }
+  }
+}
+
+// Run all tasks with names starting with &quot;test&quot;.
+task test() {
+  description &quot;Tests all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;test&quot;) &amp;&amp; !task.name.equals(&quot;test&quot;)
+    }
+  }
+}</code></pre>
+<p>To keep it simple, this example will only run a set of Spock tests. More precisely all the <code>test/*.groovy</code> files in the project folder. The final loop on the <code>build.gradle</code> the script creates a task prefixed with <code>test</code> for every test found, this way they will be called by the main testing task described above.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Create a task, prefixed with &quot;test&quot;, for every test file.
+fileTree(dir: &quot;${testDir}&quot;, include: &quot;**/*.groovy&quot;).each { File testFile -&gt;
+  def fileName = testFile.getName().split(&quot;\\.&quot;)[0]
+
+  task &quot;test${fileName}&quot;(type: Exec) {
+    description &quot;Runs the ${fileName} case.&quot;
+    workingDir path
+    commandLine &quot;groovy&quot;
+    args &quot;-cp&quot;, &quot;/usr/share/java/spock-core.jar&quot;, testFile
+    new ByteArrayOutputStream()
+  }
+}</code></pre>
+<h2 id="and-failing-first">And failing first</h2>
+<p>To get to the point of actually starting to develop new features, the stack needs to prove it can run a test. An end-to-end test for a terminal based application would look like <code>test/AppRuns.groovy</code> example described here. The test expects the system to be provisioned with the <code>app</code> command, showing a welcome message.</p>
+<pre class="javascript"><code>// test/AppRuns.groovy
+
+import spock.lang.*
+
+class AppRunsSpec extends Specification {
+  def &quot;Application should show a welcome message&quot;() {
+    expect:
+      &quot;app&quot;.execute().text == &quot;Hello, world!&quot;
+  }
+}</code></pre>
+<p>Everything is in place to start developing, there is a first test expecting a command which does not exist, so the test will fail until something is done. To watch the build run every time a change is made in the project sources simply invoke docker-compose. More about <a href="https://gradle.org/docs/">Gradle</a>, <a href="https://docs.docker.com/">Docker</a>, <a href="https://docs.docker.com/compose/">docker-compose</a> and <a href="http://spockframework.org/spock/docs/1.1/index.html">Spock</a> can be found in their respective official guides.</p>
+<pre class="bash"><code>sudo docker-compose up</code></pre>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>Docker Documentation. Docker Compose [online]. Available at <a href="https://docs.docker.com/compose/" class="uri">https://docs.docker.com/compose/</a> (Accessed 6 August 2017).</li>
+<li>Docker Documentation. Docker Documentation [online]. Available at <a href="https://docs.docker.com/" class="uri">https://docs.docker.com/</a> (Accessed 6 August 2017).</li>
+<li>Gradle. Documentation [online]. Available at <a href="https://gradle.org/docs/" class="uri">https://gradle.org/docs/</a> (Accessed 6 August 2017).</li>
+<li>Spock Framework. Spock Framework Reference Documentation. Available at <a href="http://spockframework.org/spock/docs/1.1/index.html" class="uri">http://spockframework.org/spock/docs/1.1/index.html</a> (Accessed 6 August 2017).</li>
+</ul>
+<hr />
+<p>Last edited on 6 August 2017.</p></div>
+        </div>
+        <footer class="footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="index.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="journal.html">Journal</a></li>
+              <li><a class="toggle-theme" href="#">Darken</a>
+            </ul>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="assets/script.js"></script>
+    <script src="assets/analytics.js"></script>
+    <script>
+      ga('create', 'UA-96636667-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

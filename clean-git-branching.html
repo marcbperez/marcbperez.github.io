@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="author" content="Mbp76">
+    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Hadoop,HDFS,Cassandra,PostgreSQL,Data analysis,Machine Learning,Spark,Pandas,NumPy,Linux Kernel,Programming,London,Barcelona,">
+    <meta name="description" content="Mbp76's website, with professional information and a blog.">
+    <title>mbp76.github.io</title>
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link id="prism-css" rel="stylesheet" href="">
+  </head>
+  <body class="light">
+    <div class="main-layout mdl-layout mdl-layout--fixed-header mdl-js-layout">
+      <header class="header mdl-layout__header mdl-layout__header--scroll">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">
+            <a href="index.html" class="title-link">mbp76.github.io</a>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row">
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="index.html">About</a>
+            <a class="mdl-navigation__link" href="contact.html">Contact</a>
+            <a class="mdl-navigation__link" href="journal.html">Journal</a>
+            <a class="mdl-navigation__link toggle-theme" href="#">Darken</a>
+          </nav>
+        </div>
+      </header>
+      <main class="main mdl-layout__content">
+        <div class="main-container mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="main-content mdl-shadow--4dp mdl-cell mdl-cell--8-col"><h1 id="clean-git-branching">Clean Git branching</h1>
+<p>Branching is essential when working with Git. This article explains how to work collaboratively while developing new enhancements, releasing them and hot-fixing issues for those releases. While not official, this is a widely used technique described in many other articles and implemented in several clients.</p>
+<h2 id="main-branches">Main branches</h2>
+<p>Projects diverge from one branch: <code>master</code>. This is the deployment branch and holds the last stable version that can be deployed. The integration branch, commonly known as <code>develop</code> and initially cloned from <code>master</code>, will store unreleased stable changes from features. While <code>develop</code> can merge new features, <code>master</code> can only include changes from <code>develop</code> once it is ready to be released, and hot-fixes to cover bugs.</p>
+<pre class="bash"><code># Make the first commit to master.
+git checkout master
+touch .gitignore
+echo &quot;&quot; &gt; .gitignore
+git add .gitignore
+git commit .gitignore -m &quot;Added blank .gitignore file.&quot;
+# Push master, the deployment branch.
+git push -u origin master
+# Create and push develop, the integration branch.
+git checkout -b develop master
+git push origin develop</code></pre>
+<h2 id="new-features">New features</h2>
+<p>When it comes to adding new functionality, we use a feature branch. Features are cloned directly from the latest version in the integration branch and are usually prefixed by <code>feature</code>, for example, <code>feature-login-view</code>. To create a new feature and start developing, first check it out.</p>
+<pre class="bash"><code># Create a new feature from the latest code in develop.
+git checkout -b feature-login-view develop</code></pre>
+<p>Now new work can be added inside the feature branch. Commits can be made without polluting <code>develop</code>, enhancements can be tested independently and merged back atomically into integration again. Once all the commits have been made and, in the case there is one, the <code>Unreleased</code> section of the changelog has been updated the feature is ready to be merged.</p>
+<pre class="bash"><code># Merge back the new feature into develop.
+git checkout develop
+git merge --no-ff feature-login-view -m &quot;Merged feature-login-view.&quot;
+# Push develop and, optionally, the feature.
+git push origin feature-login-view develop</code></pre>
+<p>This can also be done via a pull request. For this push the feature branch after all the changes have been committed, and follow the instructions from the the platform you are working with. Both <a href="https://help.github.com/articles/creating-a-pull-request/">Github</a> and <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Bitbucket</a> have guides on how to make pull requests using their platforms.</p>
+<h2 id="releasing-develop">Releasing develop</h2>
+<p>Once we have merged once, or several, branches into <code>develop</code> and their integration has been successful it is time to publish them and increase the version of the project. This is done with release branches, usually prefixed with <code>release-</code> and the new version number.</p>
+<pre class="bash"><code># Create a release of the integrated version.
+git checkout -b release-0.1.0 develop</code></pre>
+<p>After the version has been bumped, the <code>Unreleased</code> section of the changelog is now empty has moved its changes to the new release section, and the version number has been changed across the project, the release is ready to be merged and tagged as the latest stable version. Again, merging can be done via pull requests.</p>
+<pre class="bash"><code># Merge back the new release into develop.
+git checkout develop
+git merge --no-ff release-0.1.0 -m &quot;Merged release-0.1.0.&quot;
+# Push develop and, optionally, the release.
+git push origin release-0.1.0 develop
+# Merge back develop into master.
+git checkout master
+git merge --no-ff develop -m &quot;Merged development version 0.1.0.&quot;
+# Tag the release and push it along with master.
+git tag -a 0.1.0 -m &quot;Tagged as 0.1.0.&quot;
+git push origin 0.1.0 master</code></pre>
+<h2 id="fixing-master">Fixing master</h2>
+<p>While features and releases diverge from <code>develop</code>, severe bugs that occur in production need to be fixed directly on <code>master</code> and merged back into the deployment branch too. These are prefixed with <code>hotfix-</code> and, like releases, followed by the new version number.</p>
+<pre class="bash"><code># Create a hotfix from the latest non-stable version.
+git checkout -b hotfix-0.1.1 master</code></pre>
+<p>Once again, after all the changes have been made, the version bumped and the new section added to the changelog, the fix can be merged back into <code>master</code> and <code>develop</code>, and tagged like it is done with a release.</p>
+<pre class="bash"><code># Merge back the new hotfix into master.
+git checkout master
+git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
+# Tag the new hotfixed version.
+git tag -a 0.1.1 -m &quot;Tagged as 0.1.1.&quot;
+# Merge back the new hotfix into develop.
+git checkout develop
+git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
+# Push the hotfix, its tag, master and develop.
+git push origin hotfix-0.1.1 0.1.1 master develop</code></pre>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>Bitbucket. Pull Requests [online]. Available at <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request" class="uri">https://www.atlassian.com/git/tutorials/making-a-pull-request</a> (Accessed 8 August 2017).</li>
+<li>Github. Creating a pull request [online]. Available at <a href="https://help.github.com/articles/creating-a-pull-request/" class="uri">https://help.github.com/articles/creating-a-pull-request/</a> (Accessed 8 August 2017).</li>
+</ul>
+<hr />
+<p>Last edited on 8 August 2017.</p></div>
+        </div>
+        <footer class="footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="index.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="journal.html">Journal</a></li>
+              <li><a class="toggle-theme" href="#">Darken</a>
+            </ul>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="assets/script.js"></script>
+    <script src="assets/analytics.js"></script>
+    <script>
+      ga('create', 'UA-96636667-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
