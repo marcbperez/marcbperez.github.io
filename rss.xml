@@ -3,15 +3,39 @@
 <channel>
 
 <title>Marc B. Perez</title>
-<link>https://marcbperez.github.io</link>
+<link>https://marcbperez.github.io/</link>
 <description>Code, computers and electronics, Est. 2002</description>
 
 <item>
   <title>The Blog page, with articles I have written, has been
 revised.</title>
   <link>https://marcbperez.github.io/blog.html</link>
-  <description>The Blog page, with articles I have written, has been
-revised.</description>
+  <description><![CDATA[ <h1 id="blog">Blog</h1>
+<h2 id="clean-git-branchingclean-git-branching"><a
+href="https://marcbperez.github.io/clean-git-branching.html">Clean Git
+branching</a></h2>
+<p><strong>Published on 8 August 2017</strong><br />
+Branching is essential when working with Git. This article explains how
+to work collaboratively while developing new enhancements, releasing
+them and hot-fixing issues for those releases. While not official, this
+is a widely used technique described in Vincent Driessen’s article and
+implemented in his famous git-flow extensions.</p>
+<h2 id="descriptive-git-projectsdescriptive-git-projects"><a
+href="https://marcbperez.github.io/descriptive-git-projects.html">Descriptive
+Git projects</a></h2>
+<p><strong>Published on 7 August 2017</strong><br />
+The Code itself is not enough. It certainly does the job, but what about
+project description, standards, keeping track of changes and legal
+rights? They are important points to take into account, especially if we
+want the project to be understandable in the long run.</p>
+<h2 id="gradle-in-dockergradle-in-docker"><a
+href="https://marcbperez.github.io/gradle-in-docker.html">Gradle in
+Docker</a></h2>
+<p><strong>Published on 6 August 2017</strong><br />
+Gradle and Docker can work together to provide an isolated environment
+to build software projects. Gradle keeps the build process tied up while
+Docker and docker-compose provide an independent and configurable
+environment to construct, run, test and deploy the task.</p> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/blog.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>21 Dec 2023</pubDate>
@@ -19,8 +43,121 @@ revised.</description>
 <item>
   <title>The Clean Git Branching article has been revised.</title>
   <link>https://marcbperez.github.io/clean-git-branching.html</link>
-  <description>The Clean Git Branching article has been
-revised.</description>
+  <description><![CDATA[ <h1 id="clean-git-branching">Clean Git branching</h1>
+<p><em>Last edited on 8 August 2017.</em></p>
+<p>Branching is essential when working with Git. This article explains
+how to work collaboratively while developing new enhancements, releasing
+them and hot-fixing issues for those releases. While not official, this
+is a widely used technique described in <a
+href="https://nvie.com/posts/a-successful-git-branching-model/">Vincent
+Driessen’s article</a> and implemented in his famous <a
+href="https://github.com/nvie/gitflow">git-flow</a> extensions.</p>
+<h2 id="main-branches">Main branches</h2>
+<p>Projects diverge from one branch: <code>main</code>. This is the
+deployment branch, which holds the last stable version that can be
+deployed. The integration branch, commonly known as <code>develop</code>
+and initially cloned from <code>main</code>, will store unreleased
+stable changes from features. While <code>develop</code> can merge new
+features, <code>main</code> can only include changes from
+<code>develop</code> once it is ready to be released, and hot fixes to
+cover bugs.</p>
+<pre class="bash"><code># Make the first commit to main.
+git checkout main
+touch .gitignore
+git add .gitignore
+git commit .gitignore -m &quot;Added blank .gitignore file.&quot;
+# Push main, the deployment branch.
+git push -u origin main
+# Create and push develop, the integration branch.
+git checkout -b develop main
+git push origin develop</code></pre>
+<h2 id="new-features">New features</h2>
+<p>When it comes to adding new functionality, we use a feature branch.
+Features are cloned directly from the latest version in the integration
+branch and are usually prefixed by <code>feature</code>, for example,
+<code>feature-login-view</code>. To create a new feature and start
+developing, first check it out.</p>
+<pre class="bash"><code># Create a new feature from the latest code in develop.
+git checkout -b feature-login-view develop</code></pre>
+<p>Now new work can be added inside the feature branch. Commits can be
+made without polluting <code>develop</code>, enhancements can be tested
+independently and merged back atomically into integration again. Once
+all the commits have been made and, in the case there is one, the
+<code>Unreleased</code> section of the changelog has been updated the
+feature is ready to be merged.</p>
+<pre class="bash"><code># Merge back the new feature into develop.
+git checkout develop
+git merge --no-ff feature-login-view -m &quot;Merged feature-login-view.&quot;
+# Push develop and, optionally, the feature.
+git push origin feature-login-view develop</code></pre>
+<p>This can also be done via a pull request. For this push the feature
+branch after all the changes have been committed, and follow the
+instructions from the the platform you are working with. Both <a
+href="https://help.github.com/articles/creating-a-pull-request/">Github</a>
+and <a
+href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Bitbucket</a>
+have guides on how to make pull requests using their platforms.</p>
+<h2 id="releasing-develop">Releasing develop</h2>
+<p>Once we have merged once, or several, branches into
+<code>develop</code> and their integration has been successful it is
+time to publish them and increase the version of the project. This is
+done with release branches, usually prefixed with <code>release-</code>
+and the new version number.</p>
+<pre class="bash"><code># Create a release of the integrated version.
+git checkout -b release-0.1.0 develop</code></pre>
+<p>After the version has been bumped, the contents of the
+<code>Unreleased</code> section of the changelog have been moved to the
+new release, and the version number has been changed across the project,
+the release is ready to be merged and tagged as the latest stable
+version. Again, merging can be done via pull requests.</p>
+<pre class="bash"><code># Merge back the new release into develop.
+git checkout develop
+git merge --no-ff release-0.1.0 -m &quot;Merged release-0.1.0.&quot;
+# Push develop and, optionally, the release.
+git push origin release-0.1.0 develop
+# Merge back develop into main.
+git checkout main
+git merge --no-ff develop -m &quot;Merged development version 0.1.0.&quot;
+# Tag the release and push it along with main.
+git tag -a 0.1.0 -m &quot;Tagged as 0.1.0.&quot;
+git push origin 0.1.0 main</code></pre>
+<h2 id="fixing-main">Fixing main</h2>
+<p>While features and releases diverge from <code>develop</code>, severe
+bugs that occur in production need to be fixed directly on
+<code>main</code> and merged back into the deployment branch too. These
+are prefixed with <code>hotfix-</code> and, like releases, followed by
+the new version number.</p>
+<pre class="bash"><code># Create a hotfix from the latest non-stable version.
+git checkout -b hotfix-0.1.1 main</code></pre>
+<p>Once again, after all the changes have been made, the version bumped
+and the new section added to the changelog, the fix can be merged back
+into <code>main</code> and <code>develop</code>, and tagged like it is
+done with a release.</p>
+<pre class="bash"><code># Merge back the new hotfix into main.
+git checkout main
+git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
+# Tag the new fixed version.
+git tag -a 0.1.1 -m &quot;Tagged as 0.1.1.&quot;
+# Merge back the new hotfix into develop.
+git checkout develop
+git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
+# Push the hotfix, its tag, main and develop.
+git push origin hotfix-0.1.1 0.1.1 main develop</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li>Bitbucket. Pull Requests [online]. Available at <a
+href="https://www.atlassian.com/git/tutorials/making-a-pull-request">https://www.atlassian.com/git/tutorials/making-a-pull-request</a>
+(Accessed 8 August 2017).</li>
+<li>Git-flow. Project repository [online]. Available at <a
+href="https://github.com/nvie/gitflow">https://github.com/nvie/gitflow</a>
+(Accessed 8 August 2017).</li>
+<li>Github. Creating a pull request [online]. Available at <a
+href="https://help.github.com/articles/creating-a-pull-request/">https://help.github.com/articles/creating-a-pull-request/</a>
+(Accessed 8 August 2017).</li>
+<li>Nvie. A successful Git branching model [online]. Available at <a
+href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/</a>
+(Accessed 8 August 2017).</li>
+</ul> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/clean-git-branching.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>21 Dec 2023</pubDate>
@@ -28,8 +165,130 @@ revised.</description>
 <item>
   <title>The Descriptive Git Projects article has been revised.</title>
   <link>https://marcbperez.github.io/descriptive-git-projects.html</link>
-  <description>The Descriptive Git Projects article has been
-revised.</description>
+  <description><![CDATA[ <h1 id="descriptive-git-projects">Descriptive Git projects</h1>
+<p><em>Last edited on 7 August 2017.</em></p>
+<p>The Code itself is not enough. It certainly does the job, but what
+about project description, standards, keeping track of changes and legal
+rights? They are important points to take into account, especially if we
+want the project to be understandable in the long run.</p>
+<h2 id="the-editorconfig">The EditorConfig</h2>
+<p>Most editors and IDE’s are compatible with this format by default or
+offer a third-party plug-in to apply syntax and format standards
+described in a configuration file. The <code>.editorconfig</code> holds
+information about indentation style, line ending, final newlines,
+whitespace trimming and several other attributes that appear to be very
+useful in case we want the edition to be cross-platform and editor
+independent.</p>
+<pre class="bash"><code>root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false</code></pre>
+<p>The <a href="http://editorconfig.org">EditorConfig site</a> offers
+complete and comprehensive information about its syntax supported
+editors and plug-ins and has an extensive library of examples that can
+be used to kick-start your project.</p>
+<h2 id="the-changelog">The CHANGELOG</h2>
+<p>In order to track changes, the project needs a document that compiles
+all major modifications done each time we change its version. The
+<code>CHANGELOG.md</code> file is the right place to do this, along with
+Semantic Versioning. This file holds a section for each version change
+accompanied by its release date. Changes still in development are added
+beneath the <code>Unreleased</code> section. Changes can be
+<code>Added</code>, <code>Changed</code>, <code>Deprecated</code>,
+<code>Removed</code>, <code>Fixed</code> or <code>Security</code>
+related. <a href="http://keepachangelog.com">Keep a Changelog</a> is a
+great summary of everything this file should do.</p>
+<pre class="markdown"><code># Change Log
+
+All notable changes to this project will be documented in this file. This
+project adheres to [Semantic Versioning](http://semver.org).
+
+## Unreleased
+### Added
+  - Social sharing capabilities for the current page.
+
+## 0.8.1 - 2017-05-12
+### Fixed
+  - Build script with background serve task.
+  - Build information and errata in README usage.
+  - Google Analytics tracking code in the main template.</code></pre>
+<p>The versioning system used contains three sections,
+<code>MAJOR.MINOR.PATCH</code>. A major version should be incremented
+when incompatible API changes take place. The minor version should
+change when backwards-compatible functionality is added. Patch
+increments every time backwards-compatible bug fixes are made. Labels
+for pre-releases are also available, for a complete explanation take a
+look at the official <a href="http://semver.org">Semantic Versioning</a>
+site.</p>
+<h2 id="the-readme">The README</h2>
+<p>This file contains information about the project’s description and
+usage. It also covers obtaining, installing and testing the software
+and, sometimes, its contribution guidelines. Other information such as a
+section for troubleshooting issues and bugs, credits and a short
+description and link to the license should also be included in this
+file. Most projects contain this information in Markdown format, inside
+a <code>README.md</code> file, although ReStructuredText versions are
+also popular, especially in the Python ecosystem. Both templates can be
+obtained from Github Gists for the Markdown and ReStructuredText
+versions. To learn more, <a
+href="https://en.wikipedia.org/wiki/README">Wikipedia</a> has an
+excellent page about README documents.</p>
+<h2 id="the-license">The LICENSE</h2>
+<p>Last, but not least, we need to specify the project ownership, usage
+rights and conditions. This is tricky and may vary a lot. Certain
+private licenses may not be suitable for all situations and public
+licenses are certainly not an option for the latter case. Open source
+licenses, on the other hand, are available to everyone and can be
+downloaded online. One example, the <a
+href="https://www.apache.org/licenses/LICENSE-2.0">Apache License,
+Version 2.0</a>, guarantees free usage and distribution.</p>
+<blockquote>
+<p>Subject to the terms and conditions of this License, each Contributor
+hereby grants to You a perpetual, worldwide, non-exclusive, no-charge,
+royalty-free, irrevocable copyright license.</p>
+</blockquote>
+<p>Despite this, the Apache License, Version 2.0 does acknowledge and
+protect project creators and contributors.</p>
+<blockquote>
+<p>This License does not grant permission to use the trade names,
+trademarks, service marks, or product names of the Licensor, except as
+required for reasonable and customary use in describing the origin of
+the Work.</p>
+</blockquote>
+<p>Other well-known free licenses are the GNU General Public License
+(GPL), the MIT License or the Creative Commons License. The Open Source
+Initiative has an <a href="https://opensource.org/licenses">extended
+information page</a> about licenses and standards that can be found on
+their official page.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Apache. Apache License V2 [online]. Available at <a
+href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>
+(Accessed 7 August 2017).</li>
+<li>EditorConfig. EditorConfig [online]. Available at <a
+href="http://editorconfig.org">http://editorconfig.org</a> (Accessed 7
+August 2017).</li>
+<li>Keep a CHANGELOG. Keep a CHANGELOG [online]. Available at <a
+href="http://keepachangelog.com">http://keepachangelog.com</a> (Accessed
+7 August 2017).</li>
+<li>OpenSource. Licenses [online]. Available at <a
+href="https://opensource.org/licenses">https://opensource.org/licenses</a>
+(Accessed 7 August 2017).</li>
+<li>Semver. Semver [online]. Available at <a
+href="http://semver.org">http://semver.org</a> (Accessed 7 August
+2017).</li>
+<li>Wikipedia. README [online]. Available at <a
+href="https://en.wikipedia.org/wiki/README">https://en.wikipedia.org/wiki/README</a>
+(Accessed 7 August 2017).</li>
+</ul> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/descriptive-git-projects.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>21 Dec 2023</pubDate>
@@ -37,8 +296,205 @@ revised.</description>
 <item>
   <title>The Gradle in Docker article has been revised.</title>
   <link>https://marcbperez.github.io/gradle-in-docker.html</link>
-  <description>The Gradle in Docker article has been
-revised.</description>
+  <description><![CDATA[ <h1 id="gradle-in-docker">Gradle in Docker</h1>
+<p><em>Last edited on 6 August 2017.</em></p>
+<p>Gradle and Docker can work together to provide an isolated
+environment to build software projects. Gradle keeps the build process
+tied up while Docker and docker-compose provide an independent and
+configurable environment to construct, run and test and deploy the
+task.</p>
+<h2 id="setting-up-docker">Setting up Docker</h2>
+<p>The first step is to set up a Docker image to call Gradle in
+continuous build mode. The container will provide an isolated
+environment and a certain architecture in where to install the project
+and its dependencies, and run tests against the infrastructure. A
+<code>Dockerfile</code> that does exactly this will look like the next
+example.</p>
+<pre class="bash"><code># Dockerfile
+
+FROM marcbperez/docker-gradle
+ADD . /home/builder
+WORKDIR /home/builder
+CMD gradle --continuous</code></pre>
+<p>To provide more functionality to the stack, including the following
+<code>docker-compose.yml</code> manifest. In this example, both files
+are located in the root folder of the project.</p>
+<pre class="yaml"><code># docker-compose.yml
+
+version: &#39;2&#39;
+services:
+  builder:
+    build: .
+    volumes:
+      - .:/home/builder</code></pre>
+<h2 id="defining-the-build">Defining the build</h2>
+<p>The <code>gradle --continuous</code> command looks for a build script
+called <code>build.gradle</code>, also in the root folder. The script is
+divided into tasks and defines how the project will be built. First, it
+will define the default order of the build tasks and will set the source
+folder at <code>src</code> and the tests in <code>test</code>.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Define the execution order of the build tasks.
+defaultTasks &quot;wrapper&quot;, &quot;watch&quot;, &quot;dependencies&quot;, &quot;build&quot;, &quot;install&quot;, &quot;test&quot;
+
+// Get the path and define the source and tests folder.
+def path = System.getProperty(&quot;user.dir&quot;)
+def srcDir = &quot;${path}/src&quot;
+def testDir = &quot;${path}/test&quot;</code></pre>
+<p>The next step is to generate the project wrapper and to define its
+watcher. The wrapper will enable end users to run the Gradle build and
+its tasks without installing Gradle. The watcher will run the build
+continuously every time a change is detected in the project source or
+tests folder.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Generate the Gradle wrapper.
+task wrapper(type: Wrapper) {
+  description &quot;Creates the project wrapper.&quot;
+  gradleVersion = &quot;4.10&quot;
+}
+
+// Watch for changes when running in continuous build mode.
+task watch(type: Exec) {
+  description &quot;Watches for changes.&quot;
+  inputs.files(srcDir, testDir)
+  commandLine &quot;true&quot;
+  new ByteArrayOutputStream()
+}</code></pre>
+<p>The project might need system dependencies, in other words, the
+system will need to be provisioned and will also need packages for
+development, such as Spock, the default testing tool.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Define which packages will be needed for the build.
+def aptPackages = [&quot;libspock-java&quot;]
+
+// Run all tasks with names starting with &quot;dependencies&quot;.
+task dependencies() {
+  description &quot;Installs all dependencies.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;dependencies&quot;) &amp;&amp; !task.name.equals(&quot;dependencies&quot;)
+    }
+  }
+}
+
+// Update APT repositories, needed before installing packages.
+task aptUpdate(type: Exec) {
+  description &quot;Updates APT repository information.&quot;
+  workingDir path
+  commandLine &quot;apt-get&quot;
+  args &quot;update&quot;
+  new ByteArrayOutputStream()
+}
+
+// Install the packages and provision the system.
+task dependenciesApt(type: Exec, dependsOn: aptUpdate) {
+  description &quot;Installs APT dependencies.&quot;
+  workingDir path
+  commandLine &quot;apt-get&quot;
+  args = [&quot;install&quot;, &quot;-y&quot;] + aptPackages
+  new ByteArrayOutputStream()
+}</code></pre>
+<p>The build script will need three core tasks. <code>build</code> will
+run actions that compile, <code>install</code> will provide the system
+with those compiled changes and <code>test</code> will orchestrate
+testing activities, from unit-testing to end-to-end.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Run all tasks with names starting with &quot;build&quot;.
+task build() {
+  description &quot;Builds all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;build&quot;) &amp;&amp; !task.name.equals(&quot;build&quot;)
+    }
+  }
+}
+
+// Run all tasks with names starting with &quot;install&quot;.
+task install() {
+  description &quot;Installs all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;install&quot;) &amp;&amp; !task.name.equals(&quot;install&quot;)
+    }
+  }
+}
+
+// Run all tasks with names starting with &quot;test&quot;.
+task test() {
+  description &quot;Tests all sources.&quot;
+  dependsOn {
+    tasks.findAll { task -&gt;
+      task.name.startsWith(&quot;test&quot;) &amp;&amp; !task.name.equals(&quot;test&quot;)
+    }
+  }
+}</code></pre>
+<p>To keep it simple, this example will only run a set of Spock tests.
+More precisely all the <code>test/*.groovy</code> files in the project
+folder. The final loop on the <code>build.gradle</code> the script
+creates a task prefixed with <code>test</code> for every test found,
+this way they will be called by the main testing task described
+above.</p>
+<pre class="javascript"><code>// build.gradle
+
+// Create a task, prefixed with &quot;test&quot;, for every test file.
+fileTree(dir: &quot;${testDir}&quot;, include: &quot;**/*.groovy&quot;).each { File testFile -&gt;
+  def fileName = testFile.getName().split(&quot;\\.&quot;)[0]
+
+  task &quot;test${fileName}&quot;(type: Exec) {
+    description &quot;Runs the ${fileName} case.&quot;
+    workingDir path
+    commandLine &quot;groovy&quot;
+    args &quot;-cp&quot;, &quot;/usr/share/java/spock-core.jar&quot;, testFile
+    new ByteArrayOutputStream()
+  }
+}</code></pre>
+<h2 id="and-failing-first">And failing first</h2>
+<p>To get to the point of actually starting to develop new features, the
+stack needs to prove it can run a test. An end-to-end test for a
+terminal based application would look like
+<code>test/AppRuns.groovy</code> example described here. The test
+expects the system to be provisioned with the <code>app</code> command,
+showing a welcome message.</p>
+<pre class="javascript"><code>// test/AppRuns.groovy
+
+import spock.lang.*
+
+class AppRunsSpec extends Specification {
+  def &quot;Application should show a welcome message&quot;() {
+    expect:
+      &quot;app&quot;.execute().text == &quot;Hello, world!&quot;
+  }
+}</code></pre>
+<p>Everything is in place to start developing, there is a first test
+expecting a command which does not exist, so the test will fail until
+something is done. To watch the build run every time a change is made in
+the project sources simply invoke docker-compose. More about <a
+href="https://gradle.org/docs/">Gradle</a>, <a
+href="https://docs.docker.com/">Docker</a>, <a
+href="https://docs.docker.com/compose/">docker-compose</a> and <a
+href="http://spockframework.org/spock/docs/1.1/index.html">Spock</a> can
+be found in their respective official guides.</p>
+<pre class="bash"><code>sudo docker-compose up</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li>Docker Documentation. Docker Compose [online]. Available at <a
+href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a>
+(Accessed 6 August 2017).</li>
+<li>Docker Documentation. Docker Documentation [online]. Available at <a
+href="https://docs.docker.com/">https://docs.docker.com/</a> (Accessed 6
+August 2017).</li>
+<li>Gradle. Documentation [online]. Available at <a
+href="https://gradle.org/docs/">https://gradle.org/docs/</a> (Accessed 6
+August 2017).</li>
+<li>Spock Framework. Spock Framework Reference Documentation. Available
+at <a
+href="http://spockframework.org/spock/docs/1.1/index.html">http://spockframework.org/spock/docs/1.1/index.html</a>
+(Accessed 6 August 2017).</li>
+</ul> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/gradle-in-docker.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>21 Dec 2023</pubDate>
@@ -47,8 +503,48 @@ revised.</description>
   <title>The Projects page, with past and current works, has been
 revised.</title>
   <link>https://marcbperez.github.io/projects.html</link>
-  <description>The Projects page, with past and current works, has been
-revised.</description>
+  <description><![CDATA[ <h1 id="projects">Projects</h1>
+<h2 id="markdown-pagesmarkdown-pages"><a
+href="https://marcbperez.github.io/markdown-pages/">markdown-pages</a></h2>
+<p><a href="https://marcbperez.github.io/markdown-pages/">Web</a> / <a
+href="https://github.com/marcbperez/markdown-pages">Repo</a><br />
+A Static Site Generator for Markdown powered by Gradle, Pandoc, Spock,
+Preact and a minimalistic template.</p>
+<h2 id="debian-daily-driverdebian-daily-driver"><a
+href="https://marcbperez.github.io/debian-daily-driver/">debian-daily-driver</a></h2>
+<p><a href="https://marcbperez.github.io/debian-daily-driver/">Web</a> /
+<a
+href="https://github.com/marcbperez/debian-daily-driver">Repo</a><br />
+A Debian 12, XFCE4 and LightDM setup for everyday life. In a dark theme,
+with a custom panel, extra keyboard shortcuts and handy programs.</p>
+<h1 id="experiments">Experiments</h1>
+<h2 id="webgl-earthwebgl-earth"><a
+href="https://marcbperez.github.io/webgl-earth/">webgl-earth</a></h2>
+<p><a href="https://marcbperez.github.io/webgl-earth/">Web</a> / <a
+href="https://github.com/marcbperez/webgl-earth">Repo</a><br />
+An earth in space made with Three.js and WebGL. The planet floats in a
+star field, surrounded by clouds, and rotates at a constant speed.</p>
+<h2 id="webgl-particleswebgl-particles"><a
+href="https://marcbperez.github.io/webgl-particles/">webgl-particles</a></h2>
+<p><a href="https://marcbperez.github.io/webgl-particles/">Web</a> / <a
+href="https://github.com/marcbperez/webgl-particles">Repo</a><br />
+Particles in space made with Three.js and WebGL. Designed to test the
+maximum number of points in a condensed space.</p>
+<h1 id="archive">Archive</h1>
+<h2 id="mdl-estoremdl-estore"><a
+href="https://marcbperez.github.io/mdl-estore/home.html">mdl-estore</a></h2>
+<p><a href="https://marcbperez.github.io/mdl-estore/home.html">Web</a> /
+<a href="https://github.com/marcbperez/mdl-estore">Repo</a><br />
+Generic eStore template made with Material Design Lite and AngularJS.
+Includes responsive pages for the cart, products and categories.</p>
+<h2 id="react-uncontrolled-formsreact-uncontrolled-forms"><a
+href="https://marcbperez.github.io/react-uncontrolled-forms/">react-uncontrolled-forms</a></h2>
+<p><a
+href="https://marcbperez.github.io/react-uncontrolled-forms/">Web</a> /
+<a
+href="https://github.com/marcbperez/react-uncontrolled-forms">Repo</a><br />
+Uncontrolled React forms inside a Redux boilerplate. With SASS, Gradle
+and Docker images for development and production.</p> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/projects.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>13 Dec 2023</pubDate>
@@ -57,18 +553,73 @@ revised.</description>
   <title>The About page, information about me and this site, has been
 revised.</title>
   <link>https://marcbperez.github.io/about.html</link>
-  <description>The About page, information about me and this site, has
-been revised.</description>
+  <description><![CDATA[ <h1 id="about-me">About me</h1>
+<p>I am an engineer with over fifteen years of experience developing,
+testing, deploying and maintaining software. I have built application
+systems of all sizes, combining Python, React or React Native, Node.js,
+Java or C (and more), and configured its infrastructure in bare metal
+servers, Google Cloud Platform and AWS.</p>
+<p>You can get in touch via <a
+href="https://marcbperez.github.io/mailto:marcbperez@protonmail.com">email</a>
+or <a href="https://marcbperez.slack.com">Slack</a> for professional
+purposes, to say hi or to share feedback and corrections about this
+page.</p>
+<p>When not working on apps and internet-connected systems, I am trying
+to build computers from scratch using open-source technologies, like the
+RISC-V architecture and the Linux operating system.</p>
+<p>I usually publish to my <a
+href="https://github.com/marcbperez">GitHub repository</a>, my <a
+href="https://hub.docker.com/u/marcbperez/">Docker Hub</a> or <a
+href="https://gist.github.com/marcbperez">GitHub Gists</a>. My packages
+can be found at <a href="https://pypi.org/user/marcbperez/">PyPI</a>, <a
+href="https://npmjs.com/~marcbperez/">NPM</a> and <a
+href="https://launchpad.net/~marcbperez/-">Launchpad</a>. Sometimes I
+sell my hardware on <a
+href="https://tindie.com/stores/marcbperez/">Tindie</a> :)</p>
+<h1 id="about-this-site">About this site</h1>
+<p>This is my effort to share ideas and techniques about general
+programming, software engineering, fault-tolerant infrastructure,
+embedded systems and hardware design.</p>
+<p>The contents of this site are generated from Markdown documents using
+<a
+href="https://github.com/marcbperez/markdown-pages">markdown-pages</a>,
+my Static Site Generator for Markdown. Feel free to use it to create
+your site.</p>
+<p>Citations follow the Harvard referencing style.</p>
+<p>The <a href="https://marcbperez.github.io/sitemap.xml">sitemap is
+here</a>, in case you are a robot.</p> ]]></description>
   <guid isPermaLink="true">https://marcbperez.github.io/about.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>13 Dec 2023</pubDate>
 </item>
 <item>
   <title>The Home page now shows the latest news about the site.</title>
-  <link>https://marcbperez.github.io/</link>
-  <description>The Home page now shows the latest news about the
-site.</description>
-  <guid isPermaLink="true">https://marcbperez.github.io/</guid>
+  <link>https://marcbperez.github.io/index.html</link>
+  <description><![CDATA[ <h1 id="news">News</h1>
+<h2 id="st-december-2023">21<sup>st</sup> December 2023</h2>
+<ul>
+<li>The <a href="https://marcbperez.github.io/blog.html">Blog page</a>,
+with articles I have written, has been revised.</li>
+<li>The <a
+href="https://marcbperez.github.io/clean-git-branching.html">Clean Git
+branching</a> article has been revised.</li>
+<li>The <a
+href="https://marcbperez.github.io/descriptive-git-projects.html">Descriptive
+Git projects</a> article has been revised.</li>
+<li>The <a
+href="https://marcbperez.github.io/gradle-in-docker.html">Gradle in
+Docker</a> article has been revised.</li>
+</ul>
+<h2 id="th-december-2023">13<sup>th</sup> December 2023</h2>
+<ul>
+<li>The <a href="https://marcbperez.github.io/projects.html">Projects
+page</a>, with past and current works, has been revised.</li>
+<li>The <a href="https://marcbperez.github.io/about.html">About
+page</a>, information about me and this site, has been revised.</li>
+<li>The <a href="https://marcbperez.github.io/index.html">Home page</a>
+now shows the latest news about the site.</li>
+</ul> ]]></description>
+  <guid isPermaLink="true">https://marcbperez.github.io/index.html</guid>
   <author>Marc B. Perez</author>
   <pubDate>13 Dec 2023</pubDate>
 </item>

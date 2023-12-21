@@ -1,3 +1,6 @@
+/* Minimal template with light and dark themes, configurable font family and
+size, and optional full-width layout. */
+
 :root {
   /* Small devices (landscape phones). */
   --screen-small: 576px;
@@ -42,6 +45,7 @@
 @media (min-width: var(--screen-xlarge)) {}
 
 /* Body theming: */
+
 body.small {
   font-size: var(--font-size-small);
 }
@@ -84,6 +88,7 @@ body.dark a:visited {
 }
 
 /* Layout of body, header, main and footer: */
+
 body {
   display: flex;
   flex-direction: column;
@@ -104,6 +109,7 @@ footer {
   width: 100%;
   min-width: var(--min-width);
   max-width: var(--max-width);
+  overflow-wrap: break-word;
 }
 
 header>div,
@@ -114,6 +120,7 @@ footer>div {
 }
 
 /* Navigation links: */
+
 nav p {
   display: flex;
   flex-wrap: wrap;
@@ -121,6 +128,7 @@ nav p {
 }
 
 /* Dividers: */
+
 hr {
   opacity: 0.2;
   margin: 1.5em 0;
@@ -132,6 +140,7 @@ hr {
 }
 
 /* Headers: */
+
 h1,
 h2,
 h3,
@@ -169,6 +178,7 @@ main section>h1:first-child {
 }
 
 /* Citations: */
+
 blockquote {
   margin-right: 0;
   margin-left: var(--spacing-large);
@@ -180,6 +190,7 @@ blockquote p {
 }
 
 /* Lists: */
+
 ul {
   list-style-type: '‒  ';
 }
@@ -195,6 +206,7 @@ ol>li {
 }
 
 /* Tables: */
+
 table {
   margin: var(--spacing-medium) 0;
   width: 100%;
@@ -213,19 +225,20 @@ table td {
 }
 
 /* Images: */
-img[alt$="cover"] {
+
+img[title*="cover"] {
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1 / 1;
 }
 
 /* Only inverted in light theme. */
-body.light img[alt*="light inverted"] {
+body.light img[title*="light inverted"] {
   filter: invert(1);
 }
 
 /* Only inverted in dark theme. */
-body.dark img[alt*="dark inverted"] {
+body.dark img[title*="dark inverted"] {
   filter: invert(1);
 }
 
@@ -234,7 +247,17 @@ figure {
   margin-left: 0;
 }
 
+p:has(img[title*="centered"]),
+figure:has(img[title*="centered"]) {
+  text-align: center;
+}
+
+img[title*="full width"] {
+  max-width: 100%;
+}
+
 /* Forms: */
+
 select,
 button {
   margin: 0;
@@ -248,13 +271,14 @@ button {
 }
 
 input[type="checkbox"] {
-  margin: 0 var(--spacing-small) 0 0;
+  margin: 0;
   width: 1em;
   height: 1em;
   font-size: inherit;
 }
 
 /* Table of contents: */
+
 details summary {
   margin-bottom: var(--spacing-medium);
   cursor: pointer;
