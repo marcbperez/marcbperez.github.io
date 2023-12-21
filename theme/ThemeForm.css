@@ -1,0 +1,12 @@
+.theme-form>form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-small) var(--spacing-medium);
+}
+
+.theme-form>form>div {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}

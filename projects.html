@@ -1,60 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="author" content="Marc B. Perez">
-    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Cassandra,PostgreSQL,Data analysis,Machine Learning,Pandas,NumPy,Linux Kernel,Programming,London,">
-    <meta name="description" content="Marc B. Perez's website, with professional information and a blog.">
-    <title>Marc B. Perez</title>
-    <link rel="shortcut icon" href="assets/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link id="prism-css" rel="stylesheet" href="">
-  </head>
-  <body class="light">
-    <header>
-      <a href="index.html" title="Site title">Marc B. Perez</a>
-      <nav>
-        <a href="index.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="journal.html">Journal</a>
-        <a href="projects.html">Projects</a>
-        <a class="toggle-theme" href="#">Darken</a>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Marc B. Perez</title>
+  <meta name="author" content="Marc B. Perez">
+  <meta name="description" content="Code, computers and electronics,
+Est. 2002">
+  <meta name="keywords" content="Computer Science,Software
+Engineering,Full-stack,Embedded Systems,Responsive Websites,Mobile
+Applications,Java,Python,C,Rust,GoLang,React,React
+Native,Preact,Redux,Material
+Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud
+Platform,Cassandra,PostgreSQL,Linux Kernel,Programming">
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml">
+  <link rel="shortcut icon" href="/assets/cat.gif">
+  <link rel="stylesheet" href="/theme/style.css">
+  <link rel="stylesheet" href="/theme/ThemeForm.css">
+  <link rel="stylesheet" href="/theme/CodeHighlighter.css">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/theme/ThemeForm.js"></script>
+  <script type="module" src="/theme/CodeHighlighter.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-bash.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-python.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-markdown.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-yaml.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</head>
+
+<body class="light medium serif">
+  <header>
+    <div>
+      <p class="theme-form"></p>
+      <h1><a href="index.html">Marc B. Perez</a><br><small>Code,
+computers and electronics, Est. 2002</small></h1>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <hr>
+    </div>
+  </header>
+
+  <main>
+    <section>
+<h1 id="projects">Projects</h1>
+<h2 id="markdown-pagesmarkdown-pages"><a
+href="https://marcbperez.github.io/markdown-pages/">markdown-pages</a></h2>
+<p><a href="https://marcbperez.github.io/markdown-pages/">Web</a> / <a
+href="https://github.com/marcbperez/markdown-pages">Repo</a><br />
+A Static Site Generator for Markdown powered by Gradle, Pandoc and
+Spock, a template and Preact.</p>
+<h1 id="experiments">Experiments</h1>
+<h2 id="webgl-earthwebgl-earth"><a
+href="https://marcbperez.github.io/webgl-earth/">webgl-earth</a></h2>
+<p><a href="https://marcbperez.github.io/webgl-earth/">Web</a> / <a
+href="https://github.com/marcbperez/webgl-earth">Repo</a><br />
+An earth in space made with Three.js and WebGL. The planet floats in a
+star field, surrounded by clouds, and rotates at a constant speed.</p>
+<h2 id="webgl-particleswebgl-particles"><a
+href="https://marcbperez.github.io/webgl-particles/">webgl-particles</a></h2>
+<p><a href="https://marcbperez.github.io/webgl-particles/">Web</a> / <a
+href="https://github.com/marcbperez/webgl-particles">Repo</a><br />
+Particles in space made with Three.js and WebGL. Designed to test the
+maximum number of points in a condensed space.</p>
+<h1 id="archive">Archive</h1>
+<h2 id="mdl-estoremdl-estore"><a
+href="https://marcbperez.github.io/mdl-estore/home.html">mdl-estore</a></h2>
+<p><a href="https://marcbperez.github.io/mdl-estore/home.html">Web</a> /
+<a href="https://github.com/marcbperez/mdl-estore">Repo</a><br />
+Generic eStore template made with Material Design Lite and AngularJS.
+Includes responsive pages for the cart, products and categories.</p>
+<h2 id="react-uncontrolled-formsreact-uncontrolled-forms"><a
+href="https://marcbperez.github.io/react-uncontrolled-forms/">react-uncontrolled-forms</a></h2>
+<p><a
+href="https://marcbperez.github.io/react-uncontrolled-forms/">Web</a> /
+<a
+href="https://github.com/marcbperez/react-uncontrolled-forms">Repo</a><br />
+Uncontrolled React forms inside a Redux boilerplate. With SASS, Gradle
+and Docker images for development and production.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <hr>
+      <p><b><a href="index.html">Marc B. Perez</a></b> - Code, computers
+and electronics, Est. 2002</p>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <nav class="icons">
+        <p>
+          <a href="https://github.com/marcbperez/"><img
+            src="assets/images/github-icon.png" alt="dark inverted github icon"></a>
+          <a href="https://hub.docker.com/u/marcbperez/"><img
+            src="assets/images/docker-icon.png" alt="docker icon"></a>
+          <a href="https://npmjs.com/~marcbperez/"><img
+            src="assets/images/npm-icon.png" alt="npm icon"></a>
+          <a href="https://pypi.org/user/marcbperez/"><img
+            src="assets/images/pypi-icon.png" alt="pypi icon"></a>
+          <a href="https://launchpad.net/~marcbperez/"><img
+            src="assets/images/launchpad-icon.png" alt="launchpad icon"></a>
+          <a href="https://tindie.com/stores/marcbperez/"><img
+            src="assets/images/tindie-icon.png" alt="tindie icon"></a>
+        </p>
       </nav>
-    </header>
-    <main><h1 id="projects">Projects</h1>
-<h2 id="react-uncontrolled-forms"><a href="https://marcbperez.github.io/react-uncontrolled-forms/">react-uncontrolled-forms</a></h2>
-<p><a href="https://marcbperez.github.io/react-uncontrolled-forms/"><img src="https://marcbperez.github.io/react-uncontrolled-forms/screenshot.png" title="react-uncontrolled-forms screenshot" alt="react-uncontrolled-forms" /></a></p>
-<p><a href="https://github.com/marcbperez/react-uncontrolled-forms"><img src="assets/github-icon.png" title="github badge" alt="github" /></a></p>
-<p>Uncontrolled React forms inside a Redux boilerplate. With SASS, Gradle and Docker images for development and production.</p>
-<h2 id="webgl-earth"><a href="https://marcbperez.github.io/webgl-earth/">webgl-earth</a></h2>
-<p><a href="https://marcbperez.github.io/webgl-earth/"><img src="assets/webgl-earth-screenshot.png" title="webgl-earth screenshot" alt="webgl-earth" /></a></p>
-<p><a href="https://github.com/marcbperez/webgl-earth"><img src="assets/github-icon.png" title="github badge" alt="github" /></a></p>
-<p>An earth in space made with Three.js and WebGL. The planet floats in a star field, surrounded by clouds, and rotates at a constant speed.</p>
-<h2 id="mdl-estore"><a href="https://marcbperez.github.io/mdl-estore/home.html">mdl-estore</a></h2>
-<p><a href="https://marcbperez.github.io/mdl-estore/home.html"><img src="assets/mdl-estore-screenshot.png" title="mdl-estore screenshot" alt="mdl-estore" /></a></p>
-<p><a href="https://github.com/marcbperez/mdl-estore"><img src="assets/github-icon.png" title="github badge" alt="github" /></a></p>
-<p>Generic eStore template made with Material Design Lite and AngularJS. Includes responsive pages for the cart, products and categories.</p>
-<h2 id="webgl-particles"><a href="https://marcbperez.github.io/webgl-particles/">webgl-particles</a></h2>
-<p><a href="https://marcbperez.github.io/webgl-particles/"><img src="assets/webgl-particles-screenshot.png" title="webgl-particles screenshot" alt="webgl-particles" /></a></p>
-<p><a href="https://github.com/marcbperez/webgl-particles"><img src="assets/github-icon.png" title="github badge" alt="github" /></a></p>
-<p>Particles in space made with Three.js and WebGL. Designed to test the maximum number of points in a condensed space.</p></main>
-    <footer>
-      <nav>
-        <a href="https://github.com/marcbperez"><img src="assets/github-icon.png" title="Github icon" alt="Github"></a>
-        <a href="https://hub.docker.com/u/marcbperez/"><img src="assets/docker-icon.png" title="Docker icon" alt="Docker"></a>
-        <a href="https://npmjs.com/~marcbperez/"><img src="assets/npm-icon.png" title="NPM icon" alt="NPM"></a>
-        <a href="https://pypi.org/user/marcbperez/"><img src="assets/pypi-icon.png" title="PyPI icon" alt="PyPI"></a>
-        <a href="https://launchpad.net/~marcbperez/"><img src="assets/launchpad-icon.png" title="Launchpad icon" alt="Launchpad"></a>
-        <a href="https://tindie.com/stores/marcbperez/"><img src="assets/tindie-icon.png" title="Tindie icon" alt="Tindie"></a>
-      </nav>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
-    <script src="assets/script.js"></script>
-  </body>
+      <p class="theme-form"></p>
+      <div id="code-highlighter"></div>
+    </div>
+  </footer>
+
+</body>
+
 </html>

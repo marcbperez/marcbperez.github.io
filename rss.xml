@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+
+<title>Marc B. Perez</title>
+<link>https://marcbperez.github.io</link>
+<description>Code, computers and electronics, Est. 2002</description>
+
+<item>
+  <title>The Blog page, with articles I have written, has been
+revised.</title>
+  <link>https://marcbperez.github.io/blog.html</link>
+  <description>The Blog page, with articles I have written, has been
+revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/blog.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>21 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The Clean Git Branching article has been revised.</title>
+  <link>https://marcbperez.github.io/clean-git-branching.html</link>
+  <description>The Clean Git Branching article has been
+revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/clean-git-branching.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>21 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The Descriptive Git Projects article has been revised.</title>
+  <link>https://marcbperez.github.io/descriptive-git-projects.html</link>
+  <description>The Descriptive Git Projects article has been
+revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/descriptive-git-projects.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>21 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The Gradle in Docker article has been revised.</title>
+  <link>https://marcbperez.github.io/gradle-in-docker.html</link>
+  <description>The Gradle in Docker article has been
+revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/gradle-in-docker.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>21 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The Projects page, with past and current works, has been
+revised.</title>
+  <link>https://marcbperez.github.io/projects.html</link>
+  <description>The Projects page, with past and current works, has been
+revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/projects.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>13 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The About page, information about me and this site, has been
+revised.</title>
+  <link>https://marcbperez.github.io/about.html</link>
+  <description>The About page, information about me and this site, has
+been revised.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/about.html</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>13 Dec 2023</pubDate>
+</item>
+<item>
+  <title>The Home page now shows the latest news about the site.</title>
+  <link>https://marcbperez.github.io/</link>
+  <description>The Home page now shows the latest news about the
+site.</description>
+  <guid isPermaLink="true">https://marcbperez.github.io/</guid>
+  <author>Marc B. Perez</author>
+  <pubDate>13 Dec 2023</pubDate>
+</item>
+
+</channel>
+</rss>

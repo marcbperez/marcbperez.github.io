@@ -1,40 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="author" content="Marc B. Perez">
-    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Cassandra,PostgreSQL,Data analysis,Machine Learning,Pandas,NumPy,Linux Kernel,Programming,London,">
-    <meta name="description" content="Marc B. Perez's website, with professional information and a blog.">
-    <title>Marc B. Perez</title>
-    <link rel="shortcut icon" href="assets/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link id="prism-css" rel="stylesheet" href="">
-  </head>
-  <body class="light">
-    <header>
-      <a href="index.html" title="Site title">Marc B. Perez</a>
-      <nav>
-        <a href="index.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="journal.html">Journal</a>
-        <a href="projects.html">Projects</a>
-        <a class="toggle-theme" href="#">Darken</a>
-      </nav>
-    </header>
-    <main><h1 id="gradle-in-docker">Gradle in Docker</h1>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Marc B. Perez</title>
+  <meta name="author" content="Marc B. Perez">
+  <meta name="description" content="Code, computers and electronics,
+Est. 2002">
+  <meta name="keywords" content="Computer Science,Software
+Engineering,Full-stack,Embedded Systems,Responsive Websites,Mobile
+Applications,Java,Python,C,Rust,GoLang,React,React
+Native,Preact,Redux,Material
+Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud
+Platform,Cassandra,PostgreSQL,Linux Kernel,Programming">
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml">
+  <link rel="shortcut icon" href="/assets/cat.gif">
+  <link rel="stylesheet" href="/theme/style.css">
+  <link rel="stylesheet" href="/theme/ThemeForm.css">
+  <link rel="stylesheet" href="/theme/CodeHighlighter.css">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/theme/ThemeForm.js"></script>
+  <script type="module" src="/theme/CodeHighlighter.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-bash.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-python.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-markdown.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-yaml.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</head>
+
+<body class="light medium serif">
+  <header>
+    <div>
+      <p class="theme-form"></p>
+      <h1><a href="index.html">Marc B. Perez</a><br><small>Code,
+computers and electronics, Est. 2002</small></h1>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <hr>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <details>
+        <summary>Page contents</summary>
+        <nav role="doc-toc"><ul>
+<li><a href="#gradle-in-docker" id="toc-gradle-in-docker">Gradle in
+Docker</a>
+<ul>
+<li><a href="#setting-up-docker" id="toc-setting-up-docker">Setting up
+Docker</a></li>
+<li><a href="#defining-the-build" id="toc-defining-the-build">Defining
+the build</a></li>
+<li><a href="#and-failing-first" id="toc-and-failing-first">And failing
+first</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul></li>
+</ul></nav>
+      </details>
+    </section>
+    <section>
+<h1 id="gradle-in-docker">Gradle in Docker</h1>
 <p><em>Last edited on 6 August 2017.</em></p>
-<p>Gradle and Docker can work together to provide an isolated environment to build software projects. Gradle keeps the build process tied up while Docker and docker-compose provide an independent and configurable environment to construct, run and test and deploy the task.</p>
+<p>Gradle and Docker can work together to provide an isolated
+environment to build software projects. Gradle keeps the build process
+tied up while Docker and docker-compose provide an independent and
+configurable environment to construct, run and test and deploy the
+task.</p>
 <h2 id="setting-up-docker">Setting up Docker</h2>
-<p>The first step is to set up a Docker image to call Gradle in continuous build mode. The container will provide an isolated environment and a certain architecture in where to install the project and its dependencies, and run tests against the infrastructure. A <code>Dockerfile</code> that does exactly this will look like the next example.</p>
+<p>The first step is to set up a Docker image to call Gradle in
+continuous build mode. The container will provide an isolated
+environment and a certain architecture in where to install the project
+and its dependencies, and run tests against the infrastructure. A
+<code>Dockerfile</code> that does exactly this will look like the next
+example.</p>
 <pre class="bash"><code># Dockerfile
 
 FROM marcbperez/docker-gradle
 ADD . /home/builder
 WORKDIR /home/builder
 CMD gradle --continuous</code></pre>
-<p>To provide more functionality to the stack, including the following <code>docker-compose.yml</code> manifest. In this example, both files are located in the root folder of the project.</p>
+<p>To provide more functionality to the stack, including the following
+<code>docker-compose.yml</code> manifest. In this example, both files
+are located in the root folder of the project.</p>
 <pre class="yaml"><code># docker-compose.yml
 
 version: &#39;2&#39;
@@ -44,7 +94,11 @@ services:
     volumes:
       - .:/home/builder</code></pre>
 <h2 id="defining-the-build">Defining the build</h2>
-<p>The <code>gradle --continuous</code> command looks for a build script called <code>build.gradle</code>, also in the root folder. The script is divided into tasks and defines how the project will be built. First, it will define the default order of the build tasks and will set the source folder at <code>src</code> and the tests in <code>test</code>.</p>
+<p>The <code>gradle --continuous</code> command looks for a build script
+called <code>build.gradle</code>, also in the root folder. The script is
+divided into tasks and defines how the project will be built. First, it
+will define the default order of the build tasks and will set the source
+folder at <code>src</code> and the tests in <code>test</code>.</p>
 <pre class="javascript"><code>// build.gradle
 
 // Define the execution order of the build tasks.
@@ -54,7 +108,11 @@ defaultTasks &quot;wrapper&quot;, &quot;watch&quot;, &quot;dependencies&quot;, &
 def path = System.getProperty(&quot;user.dir&quot;)
 def srcDir = &quot;${path}/src&quot;
 def testDir = &quot;${path}/test&quot;</code></pre>
-<p>The next step is to generate the project wrapper and to define its watcher. The wrapper will enable end users to run the Gradle build and its tasks without installing Gradle. The watcher will run the build continuously every time a change is detected in the project source or tests folder.</p>
+<p>The next step is to generate the project wrapper and to define its
+watcher. The wrapper will enable end users to run the Gradle build and
+its tasks without installing Gradle. The watcher will run the build
+continuously every time a change is detected in the project source or
+tests folder.</p>
 <pre class="javascript"><code>// build.gradle
 
 // Generate the Gradle wrapper.
@@ -70,7 +128,9 @@ task watch(type: Exec) {
   commandLine &quot;true&quot;
   new ByteArrayOutputStream()
 }</code></pre>
-<p>The project might need system dependencies, in other words, the system will need to be provisioned and will also need packages for development, such as Spock, the default testing tool.</p>
+<p>The project might need system dependencies, in other words, the
+system will need to be provisioned and will also need packages for
+development, such as Spock, the default testing tool.</p>
 <pre class="javascript"><code>// build.gradle
 
 // Define which packages will be needed for the build.
@@ -103,7 +163,10 @@ task dependenciesApt(type: Exec, dependsOn: aptUpdate) {
   args = [&quot;install&quot;, &quot;-y&quot;] + aptPackages
   new ByteArrayOutputStream()
 }</code></pre>
-<p>The build script will need three core tasks. <code>build</code> will run actions that compile, <code>install</code> will provide the system with those compiled changes and <code>test</code> will orchestrate testing activities, from unit-testing to end-to-end.</p>
+<p>The build script will need three core tasks. <code>build</code> will
+run actions that compile, <code>install</code> will provide the system
+with those compiled changes and <code>test</code> will orchestrate
+testing activities, from unit-testing to end-to-end.</p>
 <pre class="javascript"><code>// build.gradle
 
 // Run all tasks with names starting with &quot;build&quot;.
@@ -135,7 +198,12 @@ task test() {
     }
   }
 }</code></pre>
-<p>To keep it simple, this example will only run a set of Spock tests. More precisely all the <code>test/*.groovy</code> files in the project folder. The final loop on the <code>build.gradle</code> the script creates a task prefixed with <code>test</code> for every test found, this way they will be called by the main testing task described above.</p>
+<p>To keep it simple, this example will only run a set of Spock tests.
+More precisely all the <code>test/*.groovy</code> files in the project
+folder. The final loop on the <code>build.gradle</code> the script
+creates a task prefixed with <code>test</code> for every test found,
+this way they will be called by the main testing task described
+above.</p>
 <pre class="javascript"><code>// build.gradle
 
 // Create a task, prefixed with &quot;test&quot;, for every test file.
@@ -151,7 +219,12 @@ fileTree(dir: &quot;${testDir}&quot;, include: &quot;**/*.groovy&quot;).each { F
   }
 }</code></pre>
 <h2 id="and-failing-first">And failing first</h2>
-<p>To get to the point of actually starting to develop new features, the stack needs to prove it can run a test. An end-to-end test for a terminal based application would look like <code>test/AppRuns.groovy</code> example described here. The test expects the system to be provisioned with the <code>app</code> command, showing a welcome message.</p>
+<p>To get to the point of actually starting to develop new features, the
+stack needs to prove it can run a test. An end-to-end test for a
+terminal based application would look like
+<code>test/AppRuns.groovy</code> example described here. The test
+expects the system to be provisioned with the <code>app</code> command,
+showing a welcome message.</p>
 <pre class="javascript"><code>// test/AppRuns.groovy
 
 import spock.lang.*
@@ -162,30 +235,62 @@ class AppRunsSpec extends Specification {
       &quot;app&quot;.execute().text == &quot;Hello, world!&quot;
   }
 }</code></pre>
-<p>Everything is in place to start developing, there is a first test expecting a command which does not exist, so the test will fail until something is done. To watch the build run every time a change is made in the project sources simply invoke docker-compose. More about <a href="https://gradle.org/docs/">Gradle</a>, <a href="https://docs.docker.com/">Docker</a>, <a href="https://docs.docker.com/compose/">docker-compose</a> and <a href="http://spockframework.org/spock/docs/1.1/index.html">Spock</a> can be found in their respective official guides.</p>
+<p>Everything is in place to start developing, there is a first test
+expecting a command which does not exist, so the test will fail until
+something is done. To watch the build run every time a change is made in
+the project sources simply invoke docker-compose. More about <a
+href="https://gradle.org/docs/">Gradle</a>, <a
+href="https://docs.docker.com/">Docker</a>, <a
+href="https://docs.docker.com/compose/">docker-compose</a> and <a
+href="http://spockframework.org/spock/docs/1.1/index.html">Spock</a> can
+be found in their respective official guides.</p>
 <pre class="bash"><code>sudo docker-compose up</code></pre>
 <h2 id="references">References</h2>
 <ul>
-<li>Docker Documentation. Docker Compose [online]. Available at <a href="https://docs.docker.com/compose/" class="uri">https://docs.docker.com/compose/</a> (Accessed 6 August 2017).</li>
-<li>Docker Documentation. Docker Documentation [online]. Available at <a href="https://docs.docker.com/" class="uri">https://docs.docker.com/</a> (Accessed 6 August 2017).</li>
-<li>Gradle. Documentation [online]. Available at <a href="https://gradle.org/docs/" class="uri">https://gradle.org/docs/</a> (Accessed 6 August 2017).</li>
-<li>Spock Framework. Spock Framework Reference Documentation. Available at <a href="http://spockframework.org/spock/docs/1.1/index.html" class="uri">http://spockframework.org/spock/docs/1.1/index.html</a> (Accessed 6 August 2017).</li>
-</ul></main>
-    <footer>
-      <nav>
-        <a href="https://github.com/marcbperez"><img src="assets/github-icon.png" title="Github icon" alt="Github"></a>
-        <a href="https://hub.docker.com/u/marcbperez/"><img src="assets/docker-icon.png" title="Docker icon" alt="Docker"></a>
-        <a href="https://npmjs.com/~marcbperez/"><img src="assets/npm-icon.png" title="NPM icon" alt="NPM"></a>
-        <a href="https://pypi.org/user/marcbperez/"><img src="assets/pypi-icon.png" title="PyPI icon" alt="PyPI"></a>
-        <a href="https://launchpad.net/~marcbperez/"><img src="assets/launchpad-icon.png" title="Launchpad icon" alt="Launchpad"></a>
-        <a href="https://tindie.com/stores/marcbperez/"><img src="assets/tindie-icon.png" title="Tindie icon" alt="Tindie"></a>
+<li>Docker Documentation. Docker Compose [online]. Available at <a
+href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a>
+(Accessed 6 August 2017).</li>
+<li>Docker Documentation. Docker Documentation [online]. Available at <a
+href="https://docs.docker.com/">https://docs.docker.com/</a> (Accessed 6
+August 2017).</li>
+<li>Gradle. Documentation [online]. Available at <a
+href="https://gradle.org/docs/">https://gradle.org/docs/</a> (Accessed 6
+August 2017).</li>
+<li>Spock Framework. Spock Framework Reference Documentation. Available
+at <a
+href="http://spockframework.org/spock/docs/1.1/index.html">http://spockframework.org/spock/docs/1.1/index.html</a>
+(Accessed 6 August 2017).</li>
+</ul>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <hr>
+      <p><b><a href="index.html">Marc B. Perez</a></b> - Code, computers
+and electronics, Est. 2002</p>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <nav class="icons">
+        <p>
+          <a href="https://github.com/marcbperez/"><img
+            src="assets/images/github-icon.png" alt="dark inverted github icon"></a>
+          <a href="https://hub.docker.com/u/marcbperez/"><img
+            src="assets/images/docker-icon.png" alt="docker icon"></a>
+          <a href="https://npmjs.com/~marcbperez/"><img
+            src="assets/images/npm-icon.png" alt="npm icon"></a>
+          <a href="https://pypi.org/user/marcbperez/"><img
+            src="assets/images/pypi-icon.png" alt="pypi icon"></a>
+          <a href="https://launchpad.net/~marcbperez/"><img
+            src="assets/images/launchpad-icon.png" alt="launchpad icon"></a>
+          <a href="https://tindie.com/stores/marcbperez/"><img
+            src="assets/images/tindie-icon.png" alt="tindie icon"></a>
+        </p>
       </nav>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
-    <script src="assets/script.js"></script>
-  </body>
+      <p class="theme-form"></p>
+      <div id="code-highlighter"></div>
+    </div>
+  </footer>
+
+</body>
+
 </html>

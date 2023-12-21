@@ -1,0 +1,3 @@
+footer nav.icons p {
+  gap: var(--spacing-medium);
+}

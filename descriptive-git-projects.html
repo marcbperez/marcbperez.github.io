@@ -1,33 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="author" content="Marc B. Perez">
-    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Cassandra,PostgreSQL,Data analysis,Machine Learning,Pandas,NumPy,Linux Kernel,Programming,London,">
-    <meta name="description" content="Marc B. Perez's website, with professional information and a blog.">
-    <title>Marc B. Perez</title>
-    <link rel="shortcut icon" href="assets/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link id="prism-css" rel="stylesheet" href="">
-  </head>
-  <body class="light">
-    <header>
-      <a href="index.html" title="Site title">Marc B. Perez</a>
-      <nav>
-        <a href="index.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="journal.html">Journal</a>
-        <a href="projects.html">Projects</a>
-        <a class="toggle-theme" href="#">Darken</a>
-      </nav>
-    </header>
-    <main><h1 id="descriptive-git-projects">Descriptive Git projects</h1>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Marc B. Perez</title>
+  <meta name="author" content="Marc B. Perez">
+  <meta name="description" content="Code, computers and electronics,
+Est. 2002">
+  <meta name="keywords" content="Computer Science,Software
+Engineering,Full-stack,Embedded Systems,Responsive Websites,Mobile
+Applications,Java,Python,C,Rust,GoLang,React,React
+Native,Preact,Redux,Material
+Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud
+Platform,Cassandra,PostgreSQL,Linux Kernel,Programming">
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml">
+  <link rel="shortcut icon" href="/assets/cat.gif">
+  <link rel="stylesheet" href="/theme/style.css">
+  <link rel="stylesheet" href="/theme/ThemeForm.css">
+  <link rel="stylesheet" href="/theme/CodeHighlighter.css">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/theme/ThemeForm.js"></script>
+  <script type="module" src="/theme/CodeHighlighter.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-bash.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-python.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-markdown.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-yaml.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</head>
+
+<body class="light medium serif">
+  <header>
+    <div>
+      <p class="theme-form"></p>
+      <h1><a href="index.html">Marc B. Perez</a><br><small>Code,
+computers and electronics, Est. 2002</small></h1>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <hr>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <details>
+        <summary>Page contents</summary>
+        <nav role="doc-toc"><ul>
+<li><a href="#descriptive-git-projects"
+id="toc-descriptive-git-projects">Descriptive Git projects</a>
+<ul>
+<li><a href="#the-editorconfig" id="toc-the-editorconfig">The
+EditorConfig</a></li>
+<li><a href="#the-changelog" id="toc-the-changelog">The
+CHANGELOG</a></li>
+<li><a href="#the-readme" id="toc-the-readme">The README</a></li>
+<li><a href="#the-license" id="toc-the-license">The LICENSE</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul></li>
+</ul></nav>
+      </details>
+    </section>
+    <section>
+<h1 id="descriptive-git-projects">Descriptive Git projects</h1>
 <p><em>Last edited on 7 August 2017.</em></p>
-<p>The Code itself is not enough. It certainly does the job, but what about project description, standards, keeping track of changes and legal rights? They are important points to take into account, especially if we want the project to be understandable in the long run.</p>
+<p>The Code itself is not enough. It certainly does the job, but what
+about project description, standards, keeping track of changes and legal
+rights? They are important points to take into account, especially if we
+want the project to be understandable in the long run.</p>
 <h2 id="the-editorconfig">The EditorConfig</h2>
-<p>Most editors and IDE's are compatible with this format by default or offer a third-party plug-in to apply syntax and format standards described in a configuration file. The <code>.editorconfig</code> holds information about indentation style, line ending, final newlines, whitespace trimming and several other attributes that appear to be very useful in case we want the edition to be cross-platform and editor independent.</p>
+<p>Most editors and IDE’s are compatible with this format by default or
+offer a third-party plug-in to apply syntax and format standards
+described in a configuration file. The <code>.editorconfig</code> holds
+information about indentation style, line ending, final newlines,
+whitespace trimming and several other attributes that appear to be very
+useful in case we want the edition to be cross-platform and editor
+independent.</p>
 <pre class="bash"><code>root = true
 
 [*]
@@ -40,9 +88,21 @@ indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false</code></pre>
-<p>The <a href="http://editorconfig.org">EditorConfig site</a> offers complete and comprehensive information about its syntax supported editors and plug-ins and has an extensive library of examples that can be used to kick-start your project.</p>
+<p>The <a href="http://editorconfig.org">EditorConfig site</a> offers
+complete and comprehensive information about its syntax supported
+editors and plug-ins and has an extensive library of examples that can
+be used to kick-start your project.</p>
 <h2 id="the-changelog">The CHANGELOG</h2>
-<p>In order to track changes, the project needs a document that compiles all major modifications done each time we change its version. The <code>CHANGELOG.md</code> file is the right place to do this, along with Semantic Versioning. This file holds a section for each version change accompanied by its release date. Changes still in development are added beneath the <code>Unreleased</code> section. Changes can be <code>Added</code>, <code>Changed</code>, <code>Deprecated</code>, <code>Removed</code>, <code>Fixed</code> or <code>Security</code> related. <a href="http://keepachangelog.com">Keep a Changelog</a> is a great summary of everything this file should do.</p>
+<p>In order to track changes, the project needs a document that compiles
+all major modifications done each time we change its version. The
+<code>CHANGELOG.md</code> file is the right place to do this, along with
+Semantic Versioning. This file holds a section for each version change
+accompanied by its release date. Changes still in development are added
+beneath the <code>Unreleased</code> section. Changes can be
+<code>Added</code>, <code>Changed</code>, <code>Deprecated</code>,
+<code>Removed</code>, <code>Fixed</code> or <code>Security</code>
+related. <a href="http://keepachangelog.com">Keep a Changelog</a> is a
+great summary of everything this file should do.</p>
 <pre class="markdown"><code># Change Log
 
 All notable changes to this project will be documented in this file. This
@@ -57,43 +117,105 @@ project adheres to [Semantic Versioning](http://semver.org).
   - Build script with background serve task.
   - Build information and errata in README usage.
   - Google Analytics tracking code in the main template.</code></pre>
-<p>The versioning system used contains three sections, <code>MAJOR.MINOR.PATCH</code>. A major version should be incremented when incompatible API changes take place. The minor version should change when backwards-compatible functionality is added. Patch increments every time backwards-compatible bug fixes are made. Labels for pre-releases are also available, for a complete explanation take a look at the official <a href="http://semver.org">Semantic Versioning</a> site.</p>
+<p>The versioning system used contains three sections,
+<code>MAJOR.MINOR.PATCH</code>. A major version should be incremented
+when incompatible API changes take place. The minor version should
+change when backwards-compatible functionality is added. Patch
+increments every time backwards-compatible bug fixes are made. Labels
+for pre-releases are also available, for a complete explanation take a
+look at the official <a href="http://semver.org">Semantic Versioning</a>
+site.</p>
 <h2 id="the-readme">The README</h2>
-<p>This file contains information about the project's description and usage. It also covers obtaining, installing and testing the software and, sometimes, its contribution guidelines. Other information such as a section for troubleshooting issues and bugs, credits and a short description and link to the license should also be included in this file. Most projects contain this information in Markdown format, inside a <code>README.md</code> file, although ReStructuredText versions are also popular, especially in the Python ecosystem. Both templates can be obtained from Github Gists for the Markdown and ReStructuredText versions. To learn more, <a href="https://en.wikipedia.org/wiki/README">Wikipedia</a> has an excellent page about README documents.</p>
+<p>This file contains information about the project’s description and
+usage. It also covers obtaining, installing and testing the software
+and, sometimes, its contribution guidelines. Other information such as a
+section for troubleshooting issues and bugs, credits and a short
+description and link to the license should also be included in this
+file. Most projects contain this information in Markdown format, inside
+a <code>README.md</code> file, although ReStructuredText versions are
+also popular, especially in the Python ecosystem. Both templates can be
+obtained from Github Gists for the Markdown and ReStructuredText
+versions. To learn more, <a
+href="https://en.wikipedia.org/wiki/README">Wikipedia</a> has an
+excellent page about README documents.</p>
 <h2 id="the-license">The LICENSE</h2>
-<p>Last, but not least, we need to specify the project ownership, usage rights and conditions. This is tricky and may vary a lot. Certain private licenses may not be suitable for all situations and public licenses are certainly not an option for the latter case. Open source licenses, on the other hand, are available to everyone and can be downloaded online. One example, the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>, guarantees free usage and distribution.</p>
+<p>Last, but not least, we need to specify the project ownership, usage
+rights and conditions. This is tricky and may vary a lot. Certain
+private licenses may not be suitable for all situations and public
+licenses are certainly not an option for the latter case. Open source
+licenses, on the other hand, are available to everyone and can be
+downloaded online. One example, the <a
+href="https://www.apache.org/licenses/LICENSE-2.0">Apache License,
+Version 2.0</a>, guarantees free usage and distribution.</p>
 <blockquote>
-<p>Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license.</p>
+<p>Subject to the terms and conditions of this License, each Contributor
+hereby grants to You a perpetual, worldwide, non-exclusive, no-charge,
+royalty-free, irrevocable copyright license.</p>
 </blockquote>
-<p>Despite this, the Apache License, Version 2.0 does acknowledge and protect project creators and contributors.</p>
+<p>Despite this, the Apache License, Version 2.0 does acknowledge and
+protect project creators and contributors.</p>
 <blockquote>
-<p>This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work.</p>
+<p>This License does not grant permission to use the trade names,
+trademarks, service marks, or product names of the Licensor, except as
+required for reasonable and customary use in describing the origin of
+the Work.</p>
 </blockquote>
-<p>Other well-known free licenses are the GNU General Public License (GPL), the MIT License or the Creative Commons License. The Open Source Initiative has an <a href="https://opensource.org/licenses">extended information page</a> about licenses and standards that can be found on their official page.</p>
+<p>Other well-known free licenses are the GNU General Public License
+(GPL), the MIT License or the Creative Commons License. The Open Source
+Initiative has an <a href="https://opensource.org/licenses">extended
+information page</a> about licenses and standards that can be found on
+their official page.</p>
 <h2 id="references">References</h2>
 <ul>
-<li>Apache. Apache License V2 [online]. Available at <a href="https://www.apache.org/licenses/LICENSE-2.0" class="uri">https://www.apache.org/licenses/LICENSE-2.0</a> (Accessed 7 August 2017).</li>
-<li>EditorConfig. EditorConfig [online]. Available at <a href="http://editorconfig.org" class="uri">http://editorconfig.org</a> (Accessed 7 August 2017).</li>
-<li>Keep a CHANGELOG. Keep a CHANGELOG [online]. Available at <a href="http://keepachangelog.com" class="uri">http://keepachangelog.com</a> (Accessed 7 August 2017).</li>
-<li>OpenSource. Licenses [online]. Available at <a href="https://opensource.org/licenses" class="uri">https://opensource.org/licenses</a> (Accessed 7 August 2017).</li>
-<li>Semver. Semver [online]. Available at <a href="http://semver.org" class="uri">http://semver.org</a> (Accessed 7 August 2017).</li>
-<li>Wikipedia. README [online]. Available at <a href="https://en.wikipedia.org/wiki/README" class="uri">https://en.wikipedia.org/wiki/README</a> (Accessed 7 August 2017).</li>
-</ul></main>
-    <footer>
-      <nav>
-        <a href="https://github.com/marcbperez"><img src="assets/github-icon.png" title="Github icon" alt="Github"></a>
-        <a href="https://hub.docker.com/u/marcbperez/"><img src="assets/docker-icon.png" title="Docker icon" alt="Docker"></a>
-        <a href="https://npmjs.com/~marcbperez/"><img src="assets/npm-icon.png" title="NPM icon" alt="NPM"></a>
-        <a href="https://pypi.org/user/marcbperez/"><img src="assets/pypi-icon.png" title="PyPI icon" alt="PyPI"></a>
-        <a href="https://launchpad.net/~marcbperez/"><img src="assets/launchpad-icon.png" title="Launchpad icon" alt="Launchpad"></a>
-        <a href="https://tindie.com/stores/marcbperez/"><img src="assets/tindie-icon.png" title="Tindie icon" alt="Tindie"></a>
+<li>Apache. Apache License V2 [online]. Available at <a
+href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>
+(Accessed 7 August 2017).</li>
+<li>EditorConfig. EditorConfig [online]. Available at <a
+href="http://editorconfig.org">http://editorconfig.org</a> (Accessed 7
+August 2017).</li>
+<li>Keep a CHANGELOG. Keep a CHANGELOG [online]. Available at <a
+href="http://keepachangelog.com">http://keepachangelog.com</a> (Accessed
+7 August 2017).</li>
+<li>OpenSource. Licenses [online]. Available at <a
+href="https://opensource.org/licenses">https://opensource.org/licenses</a>
+(Accessed 7 August 2017).</li>
+<li>Semver. Semver [online]. Available at <a
+href="http://semver.org">http://semver.org</a> (Accessed 7 August
+2017).</li>
+<li>Wikipedia. README [online]. Available at <a
+href="https://en.wikipedia.org/wiki/README">https://en.wikipedia.org/wiki/README</a>
+(Accessed 7 August 2017).</li>
+</ul>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <hr>
+      <p><b><a href="index.html">Marc B. Perez</a></b> - Code, computers
+and electronics, Est. 2002</p>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <nav class="icons">
+        <p>
+          <a href="https://github.com/marcbperez/"><img
+            src="assets/images/github-icon.png" alt="dark inverted github icon"></a>
+          <a href="https://hub.docker.com/u/marcbperez/"><img
+            src="assets/images/docker-icon.png" alt="docker icon"></a>
+          <a href="https://npmjs.com/~marcbperez/"><img
+            src="assets/images/npm-icon.png" alt="npm icon"></a>
+          <a href="https://pypi.org/user/marcbperez/"><img
+            src="assets/images/pypi-icon.png" alt="pypi icon"></a>
+          <a href="https://launchpad.net/~marcbperez/"><img
+            src="assets/images/launchpad-icon.png" alt="launchpad icon"></a>
+          <a href="https://tindie.com/stores/marcbperez/"><img
+            src="assets/images/tindie-icon.png" alt="tindie icon"></a>
+        </p>
       </nav>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
-    <script src="assets/script.js"></script>
-  </body>
+      <p class="theme-form"></p>
+      <div id="code-highlighter"></div>
+    </div>
+  </footer>
+
+</body>
+
 </html>

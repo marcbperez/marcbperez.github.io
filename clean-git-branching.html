@@ -1,108 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="author" content="Marc B. Perez">
-    <meta name="keywords" content="Computer Science,Software Engineering,Full-stack,Fault-tolerant,Embedded Systems,Responsive Websites,Mobile Applications,Java,Python,C,C++,GoLang,React,Redux,Material Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud Platform,Bare Metal,Highly Scalable,Cluster,Cassandra,PostgreSQL,Data analysis,Machine Learning,Pandas,NumPy,Linux Kernel,Programming,London,">
-    <meta name="description" content="Marc B. Perez's website, with professional information and a blog.">
-    <title>Marc B. Perez</title>
-    <link rel="shortcut icon" href="assets/favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link id="prism-css" rel="stylesheet" href="">
-  </head>
-  <body class="light">
-    <header>
-      <a href="index.html" title="Site title">Marc B. Perez</a>
-      <nav>
-        <a href="index.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="journal.html">Journal</a>
-        <a href="projects.html">Projects</a>
-        <a class="toggle-theme" href="#">Darken</a>
-      </nav>
-    </header>
-    <main><h1 id="clean-git-branching">Clean Git branching</h1>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Marc B. Perez</title>
+  <meta name="author" content="Marc B. Perez">
+  <meta name="description" content="Code, computers and electronics,
+Est. 2002">
+  <meta name="keywords" content="Computer Science,Software
+Engineering,Full-stack,Embedded Systems,Responsive Websites,Mobile
+Applications,Java,Python,C,Rust,GoLang,React,React
+Native,Preact,Redux,Material
+Design,Git,Gradle,Docker,docker-compose,Amazon Web Services,Google Cloud
+Platform,Cassandra,PostgreSQL,Linux Kernel,Programming">
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml">
+  <link rel="shortcut icon" href="/assets/cat.gif">
+  <link rel="stylesheet" href="/theme/style.css">
+  <link rel="stylesheet" href="/theme/ThemeForm.css">
+  <link rel="stylesheet" href="/theme/CodeHighlighter.css">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/theme/ThemeForm.js"></script>
+  <script type="module" src="/theme/CodeHighlighter.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-bash.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-python.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-markdown.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/components/prism-yaml.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script type="module" src="https://esm.sh/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</head>
+
+<body class="light medium serif">
+  <header>
+    <div>
+      <p class="theme-form"></p>
+      <h1><a href="index.html">Marc B. Perez</a><br><small>Code,
+computers and electronics, Est. 2002</small></h1>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <hr>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <details>
+        <summary>Page contents</summary>
+        <nav role="doc-toc"><ul>
+<li><a href="#clean-git-branching" id="toc-clean-git-branching">Clean
+Git branching</a>
+<ul>
+<li><a href="#main-branches" id="toc-main-branches">Main
+branches</a></li>
+<li><a href="#new-features" id="toc-new-features">New features</a></li>
+<li><a href="#releasing-develop" id="toc-releasing-develop">Releasing
+develop</a></li>
+<li><a href="#fixing-main" id="toc-fixing-main">Fixing main</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul></li>
+</ul></nav>
+      </details>
+    </section>
+    <section>
+<h1 id="clean-git-branching">Clean Git branching</h1>
 <p><em>Last edited on 8 August 2017.</em></p>
-<p>Branching is essential when working with Git. This article explains how to work collaboratively while developing new enhancements, releasing them and hot-fixing issues for those releases. While not official, this is a widely used technique described in <a href="https://nvie.com/posts/a-successful-git-branching-model/">Vincent Driessen's article</a> and implemented in his famous <a href="https://github.com/nvie/gitflow">git-flow</a> extensions.</p>
+<p>Branching is essential when working with Git. This article explains
+how to work collaboratively while developing new enhancements, releasing
+them and hot-fixing issues for those releases. While not official, this
+is a widely used technique described in <a
+href="https://nvie.com/posts/a-successful-git-branching-model/">Vincent
+Driessen’s article</a> and implemented in his famous <a
+href="https://github.com/nvie/gitflow">git-flow</a> extensions.</p>
 <h2 id="main-branches">Main branches</h2>
-<p>Projects diverge from one branch: <code>master</code>. This is the deployment branch and holds the last stable version that can be deployed. The integration branch, commonly known as <code>develop</code> and initially cloned from <code>master</code>, will store unreleased stable changes from features. While <code>develop</code> can merge new features, <code>master</code> can only include changes from <code>develop</code> once it is ready to be released, and hot-fixes to cover bugs.</p>
-<pre class="bash"><code># Make the first commit to master.
-git checkout master
+<p>Projects diverge from one branch: <code>main</code>. This is the
+deployment branch, which holds the last stable version that can be
+deployed. The integration branch, commonly known as <code>develop</code>
+and initially cloned from <code>main</code>, will store unreleased
+stable changes from features. While <code>develop</code> can merge new
+features, <code>main</code> can only include changes from
+<code>develop</code> once it is ready to be released, and hot fixes to
+cover bugs.</p>
+<pre class="bash"><code># Make the first commit to main.
+git checkout main
 touch .gitignore
 echo &quot;&quot; &gt; .gitignore
 git add .gitignore
 git commit .gitignore -m &quot;Added blank .gitignore file.&quot;
-# Push master, the deployment branch.
-git push -u origin master
+# Push main, the deployment branch.
+git push -u origin main
 # Create and push develop, the integration branch.
-git checkout -b develop master
+git checkout -b develop main
 git push origin develop</code></pre>
 <h2 id="new-features">New features</h2>
-<p>When it comes to adding new functionality, we use a feature branch. Features are cloned directly from the latest version in the integration branch and are usually prefixed by <code>feature</code>, for example, <code>feature-login-view</code>. To create a new feature and start developing, first check it out.</p>
+<p>When it comes to adding new functionality, we use a feature branch.
+Features are cloned directly from the latest version in the integration
+branch and are usually prefixed by <code>feature</code>, for example,
+<code>feature-login-view</code>. To create a new feature and start
+developing, first check it out.</p>
 <pre class="bash"><code># Create a new feature from the latest code in develop.
 git checkout -b feature-login-view develop</code></pre>
-<p>Now new work can be added inside the feature branch. Commits can be made without polluting <code>develop</code>, enhancements can be tested independently and merged back atomically into integration again. Once all the commits have been made and, in the case there is one, the <code>Unreleased</code> section of the changelog has been updated the feature is ready to be merged.</p>
+<p>Now new work can be added inside the feature branch. Commits can be
+made without polluting <code>develop</code>, enhancements can be tested
+independently and merged back atomically into integration again. Once
+all the commits have been made and, in the case there is one, the
+<code>Unreleased</code> section of the changelog has been updated the
+feature is ready to be merged.</p>
 <pre class="bash"><code># Merge back the new feature into develop.
 git checkout develop
 git merge --no-ff feature-login-view -m &quot;Merged feature-login-view.&quot;
 # Push develop and, optionally, the feature.
 git push origin feature-login-view develop</code></pre>
-<p>This can also be done via a pull request. For this push the feature branch after all the changes have been committed, and follow the instructions from the the platform you are working with. Both <a href="https://help.github.com/articles/creating-a-pull-request/">Github</a> and <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Bitbucket</a> have guides on how to make pull requests using their platforms.</p>
+<p>This can also be done via a pull request. For this push the feature
+branch after all the changes have been committed, and follow the
+instructions from the the platform you are working with. Both <a
+href="https://help.github.com/articles/creating-a-pull-request/">Github</a>
+and <a
+href="https://www.atlassian.com/git/tutorials/making-a-pull-request">Bitbucket</a>
+have guides on how to make pull requests using their platforms.</p>
 <h2 id="releasing-develop">Releasing develop</h2>
-<p>Once we have merged once, or several, branches into <code>develop</code> and their integration has been successful it is time to publish them and increase the version of the project. This is done with release branches, usually prefixed with <code>release-</code> and the new version number.</p>
+<p>Once we have merged once, or several, branches into
+<code>develop</code> and their integration has been successful it is
+time to publish them and increase the version of the project. This is
+done with release branches, usually prefixed with <code>release-</code>
+and the new version number.</p>
 <pre class="bash"><code># Create a release of the integrated version.
 git checkout -b release-0.1.0 develop</code></pre>
-<p>After the version has been bumped, the <code>Unreleased</code> section of the changelog is now empty has moved its changes to the new release section, and the version number has been changed across the project, the release is ready to be merged and tagged as the latest stable version. Again, merging can be done via pull requests.</p>
+<p>After the version has been bumped, the contents of the
+<code>Unreleased</code> section of the changelog have been moved to the
+new release, and the version number has been changed across the project,
+the release is ready to be merged and tagged as the latest stable
+version. Again, merging can be done via pull requests.</p>
 <pre class="bash"><code># Merge back the new release into develop.
 git checkout develop
 git merge --no-ff release-0.1.0 -m &quot;Merged release-0.1.0.&quot;
 # Push develop and, optionally, the release.
 git push origin release-0.1.0 develop
-# Merge back develop into master.
-git checkout master
+# Merge back develop into main.
+git checkout main
 git merge --no-ff develop -m &quot;Merged development version 0.1.0.&quot;
-# Tag the release and push it along with master.
+# Tag the release and push it along with main.
 git tag -a 0.1.0 -m &quot;Tagged as 0.1.0.&quot;
-git push origin 0.1.0 master</code></pre>
-<h2 id="fixing-master">Fixing master</h2>
-<p>While features and releases diverge from <code>develop</code>, severe bugs that occur in production need to be fixed directly on <code>master</code> and merged back into the deployment branch too. These are prefixed with <code>hotfix-</code> and, like releases, followed by the new version number.</p>
+git push origin 0.1.0 main</code></pre>
+<h2 id="fixing-main">Fixing main</h2>
+<p>While features and releases diverge from <code>develop</code>, severe
+bugs that occur in production need to be fixed directly on
+<code>main</code> and merged back into the deployment branch too. These
+are prefixed with <code>hotfix-</code> and, like releases, followed by
+the new version number.</p>
 <pre class="bash"><code># Create a hotfix from the latest non-stable version.
-git checkout -b hotfix-0.1.1 master</code></pre>
-<p>Once again, after all the changes have been made, the version bumped and the new section added to the changelog, the fix can be merged back into <code>master</code> and <code>develop</code>, and tagged like it is done with a release.</p>
-<pre class="bash"><code># Merge back the new hotfix into master.
-git checkout master
+git checkout -b hotfix-0.1.1 main</code></pre>
+<p>Once again, after all the changes have been made, the version bumped
+and the new section added to the changelog, the fix can be merged back
+into <code>main</code> and <code>develop</code>, and tagged like it is
+done with a release.</p>
+<pre class="bash"><code># Merge back the new hotfix into main.
+git checkout main
 git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
-# Tag the new hotfixed version.
+# Tag the new fixed version.
 git tag -a 0.1.1 -m &quot;Tagged as 0.1.1.&quot;
 # Merge back the new hotfix into develop.
 git checkout develop
 git merge --no-ff hotfix-0.1.1 -m &quot;Merged hotfix-0.1.1.&quot;
-# Push the hotfix, its tag, master and develop.
-git push origin hotfix-0.1.1 0.1.1 master develop</code></pre>
+# Push the hotfix, its tag, main and develop.
+git push origin hotfix-0.1.1 0.1.1 main develop</code></pre>
 <h2 id="references">References</h2>
 <ul>
-<li>Bitbucket. Pull Requests [online]. Available at <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request" class="uri">https://www.atlassian.com/git/tutorials/making-a-pull-request</a> (Accessed 8 August 2017).</li>
-<li>Git-flow. Project repository [online]. Available at <a href="https://github.com/nvie/gitflow" class="uri">https://github.com/nvie/gitflow</a> (Accessed 8 August 2017).</li>
-<li>Github. Creating a pull request [online]. Available at <a href="https://help.github.com/articles/creating-a-pull-request/" class="uri">https://help.github.com/articles/creating-a-pull-request/</a> (Accessed 8 August 2017).</li>
-<li>Nvie. A successful Git branching model [online]. Available at <a href="https://nvie.com/posts/a-successful-git-branching-model/" class="uri">https://nvie.com/posts/a-successful-git-branching-model/</a> (Accessed 8 August 2017).</li>
-</ul></main>
-    <footer>
-      <nav>
-        <a href="https://github.com/marcbperez"><img src="assets/github-icon.png" title="Github icon" alt="Github"></a>
-        <a href="https://hub.docker.com/u/marcbperez/"><img src="assets/docker-icon.png" title="Docker icon" alt="Docker"></a>
-        <a href="https://npmjs.com/~marcbperez/"><img src="assets/npm-icon.png" title="NPM icon" alt="NPM"></a>
-        <a href="https://pypi.org/user/marcbperez/"><img src="assets/pypi-icon.png" title="PyPI icon" alt="PyPI"></a>
-        <a href="https://launchpad.net/~marcbperez/"><img src="assets/launchpad-icon.png" title="Launchpad icon" alt="Launchpad"></a>
-        <a href="https://tindie.com/stores/marcbperez/"><img src="assets/tindie-icon.png" title="Tindie icon" alt="Tindie"></a>
+<li>Bitbucket. Pull Requests [online]. Available at <a
+href="https://www.atlassian.com/git/tutorials/making-a-pull-request">https://www.atlassian.com/git/tutorials/making-a-pull-request</a>
+(Accessed 8 August 2017).</li>
+<li>Git-flow. Project repository [online]. Available at <a
+href="https://github.com/nvie/gitflow">https://github.com/nvie/gitflow</a>
+(Accessed 8 August 2017).</li>
+<li>Github. Creating a pull request [online]. Available at <a
+href="https://help.github.com/articles/creating-a-pull-request/">https://help.github.com/articles/creating-a-pull-request/</a>
+(Accessed 8 August 2017).</li>
+<li>Nvie. A successful Git branching model [online]. Available at <a
+href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/</a>
+(Accessed 8 August 2017).</li>
+</ul>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <hr>
+      <p><b><a href="index.html">Marc B. Perez</a></b> - Code, computers
+and electronics, Est. 2002</p>
+      <nav><p><a href="/">Home</a> / <a href="/blog.html">Blog</a> / <a href="/projects.html">Projects</a> / <a href="/about.html">About</a> / <a href="/rss.xml">RSS</a></p></nav>
+      <nav class="icons">
+        <p>
+          <a href="https://github.com/marcbperez/"><img
+            src="assets/images/github-icon.png" alt="dark inverted github icon"></a>
+          <a href="https://hub.docker.com/u/marcbperez/"><img
+            src="assets/images/docker-icon.png" alt="docker icon"></a>
+          <a href="https://npmjs.com/~marcbperez/"><img
+            src="assets/images/npm-icon.png" alt="npm icon"></a>
+          <a href="https://pypi.org/user/marcbperez/"><img
+            src="assets/images/pypi-icon.png" alt="pypi icon"></a>
+          <a href="https://launchpad.net/~marcbperez/"><img
+            src="assets/images/launchpad-icon.png" alt="launchpad icon"></a>
+          <a href="https://tindie.com/stores/marcbperez/"><img
+            src="assets/images/tindie-icon.png" alt="tindie icon"></a>
+        </p>
       </nav>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
-    <script src="assets/script.js"></script>
-  </body>
+      <p class="theme-form"></p>
+      <div id="code-highlighter"></div>
+    </div>
+  </footer>
+
+</body>
+
 </html>
